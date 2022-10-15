@@ -22,8 +22,8 @@ export const Wrapper = ({ graphData }: WrapperPros) => {
   const height = 200;
 
   const margin = { top: 10, right: 30, bottom: 40, left: 55 };
-  const xMax = width - margin.left - margin.right;
-  const yMax = height - margin.top - margin.bottom;
+  const chartWidth = width - margin.left - margin.right;
+  const chartHeight = height - margin.top - margin.bottom;
 
   const customLocale = graphData.configMap.get(ConfigKind.customLocale);
   const locale = getLocale(customLocale ?? navigator.language);
@@ -48,10 +48,13 @@ export const Wrapper = ({ graphData }: WrapperPros) => {
       throw new Error("Unknown DataType");
     }
   }
-  xScale = (xScale.domain(graphData.xAxis.domain) as any).range([0, width]);
+  xScale = (xScale.domain(graphData.xAxis.domain) as any).range([
+    0,
+    chartWidth,
+  ]);
   const yScale = scaleLinear()
     .domain(graphData.yAxis.domain)
-    .range([height, 0]);
+    .range([chartHeight, 0]);
 
   const serieListNames = graphData.serieList.map((item) => item.name);
   const colorScale = scaleOrdinal()
@@ -85,31 +88,29 @@ export const Wrapper = ({ graphData }: WrapperPros) => {
     padding: 0.1,
   });
 
-  x0Scale.rangeRound([0, xMax]);
+  x0Scale.rangeRound([0, chartWidth]);
   x1Scale.rangeRound([0, x0Scale.bandwidth()]);
-
-  console.log(graphData);
 
   return (
     <div>
       <svg width={width} height={height}>
         <GradientTealBlue id="teal" />
         <rect width={width} height={height} fill="url(#teal)" rx={14} />
-        {graphData.xAxis.dataType !== DataType.category &&
-          graphData.serieList.map((item) => (
-            <LinePath
-              data={item.pointList}
-              x={(d) => xScale(d.x) ?? 0}
-              y={(d) => yScale(d.y) ?? 0}
-              stroke={colorScale(item.name)}
-            />
-          ))}
-        {graphData.xAxis.dataType === DataType.category && (
-          <Group top={margin.top} left={margin.left}>
+        <Group top={margin.top} left={margin.left}>
+          {graphData.xAxis.dataType !== DataType.category &&
+            graphData.serieList.map((item) => (
+              <LinePath
+                data={item.pointList}
+                x={(d) => xScale(d.x) ?? 0}
+                y={(d) => yScale(d.y) ?? 0}
+                stroke={colorScale(item.name)}
+              />
+            ))}
+          {graphData.xAxis.dataType === DataType.category && (
             <BarGroup
               data={transformedData}
               keys={keys}
-              height={yMax}
+              height={chartHeight}
               x0={(d) => d.x0}
               x0Scale={x0Scale}
               x1Scale={x1Scale}
@@ -137,10 +138,14 @@ export const Wrapper = ({ graphData }: WrapperPros) => {
                 ))
               }
             </BarGroup>
-          </Group>
-        )}
-        <AxisLeft left={margin.left} scale={yScale} />
-        <AxisBottom top={yMax + margin.top} left={margin.left} scale={xScale} />
+          )}
+        </Group>
+        <AxisLeft top={margin.top} left={margin.left} scale={yScale} />
+        <AxisBottom
+          top={chartHeight + margin.top}
+          left={margin.left}
+          scale={xScale}
+        />
       </svg>
       <LegendOrdinal
         scale={colorScale}
