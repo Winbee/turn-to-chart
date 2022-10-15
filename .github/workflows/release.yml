@@ -38,7 +38,7 @@ jobs:
         run: pnpm install
 
       - name: Build
-        run: pnpm run dist
+        run: pnpm run build
 
       - name: Test
         run: pnpm run test
@@ -49,4 +49,4 @@ jobs:
         with:
           files: |
             dist/turn-to-chart.js
-            turn-to-chart.umd.cjs
+            dist/turn-to-chart.umd.cjs
