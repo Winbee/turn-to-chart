@@ -10,6 +10,7 @@ import { BarGroup } from "@visx/shape";
 import { Group } from "@visx/group";
 import { GradientTealBlue } from "@visx/gradient";
 import { LinePath } from "@visx/shape";
+import { RectClipPath } from "@visx/clip-path";
 
 import { DataType, GraphData } from "../model/GraphData";
 import { ConfigKind, LegendOrientation } from "../model/ConfigData";
@@ -32,14 +33,19 @@ const Svg = styled.svg`
 `;
 
 const LegendWrapper = styled.div`
-  padding: 0.6em;
+  padding: 0.2em;
   border-radius: 5px;
   background: #8282821c;
 `;
 
+const BackgroundRect = styled.rect`
+  border-radius: 4px;
+  fill: #8282821c;
+`;
+
 const LegendTitle = styled.div`
-  margin-bottom: 0.5em;
-  font-weight: 100;
+  margin: 0.4em 0;
+  font-weight: 600;
 `;
 
 interface WrapperPros {
@@ -157,18 +163,30 @@ export const Wrapper = ({ graphData }: WrapperPros) => {
   return (
     <WrapperDiv>
       <Svg viewBox={`0 0 ${width} ${height}`} width={width} height={height}>
-        <GradientTealBlue id="teal" />
-        <rect width={width} height={height} fill="url(#teal)" rx={8} />
-        <Group top={margin.top} left={margin.left}>
+        <BackgroundRect width={width} height={height} rx={8} />
+        <RectClipPath id="chart-clip" width={chartWidth} height={chartHeight} />
+        <Group clipPath="url(#chart-clip)" top={margin.top} left={margin.left}>
           {graphData.xAxis.dataType !== DataType.category &&
             graphData.serieList.map((item, index) => (
-              <LinePath
-                key={`line-path-${item.label}-${index}`}
-                data={item.pointList}
-                x={(d) => xScale(d.x) ?? 0}
-                y={(d) => yScale(d.y) ?? 0}
-                stroke={colorScale(item.label)}
-              />
+              <>
+                <LinePath
+                  key={`line-path-${item.label}-${index}`}
+                  data={item.pointList}
+                  x={(d) => xScale(d.x) ?? 0}
+                  y={(d) => yScale(d.y) ?? 0}
+                  stroke={colorScale(item.label)}
+                  shapeRendering="geometricPrecision"
+                />
+                {item.pointList.map((d, i) => (
+                  <circle
+                    key={`line-path-${item.label}-${index}-point-${i}`}
+                    cx={xScale(d.x) ?? 0}
+                    cy={yScale(d.y) ?? 0}
+                    r={2}
+                    fill={colorScale(item.label)}
+                  />
+                ))}
+              </>
             ))}
           {graphData.xAxis.dataType === DataType.category && (
             <BarGroup

@@ -24,7 +24,7 @@
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@visx/axis": "^2.14.0",
-    "@visx/gradient": "^2.10.0",
+    "@visx/clip-path": "^2.10.0",
     "@visx/group": "^2.10.0",
     "@visx/legend": "^2.10.0",
     "@visx/scale": "^2.2.2",

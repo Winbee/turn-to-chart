@@ -55,6 +55,8 @@ export const examples: {
     | category 1 | 2 | 4 | 1 |
     | category 2 | 4 | 5 | 2 |
     | category 3 | 8 | 2 | 2 |
+
+    legendTitle: This is a title
     `,
   },
 ];
