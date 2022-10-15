@@ -1,8 +1,8 @@
-import { AxisOriginKind, ConfigKind } from '../model/ConfigData';
-import { DataType, GraphData, Point, Serie, XType } from '../model/GraphData';
-import { TableData } from '../model/TableData';
-import { buildConfigData } from './configBuilder';
-import { isDate, isNumber } from './utils';
+import { AxisOriginKind, ConfigKind } from "../model/ConfigData";
+import { DataType, GraphData, Point, Serie, XType } from "../model/GraphData";
+import { TableData } from "../model/TableData";
+import { buildConfigData } from "./configBuilder";
+import { isDate, isNumber } from "./utils";
 
 const X_LABEL_REGEX = /(.*?)\[(.*?)\]/;
 const Y_LABEL_REGEX = /(.*?)\((.*?)\)/;
@@ -11,12 +11,12 @@ export const buildGraphData = (tableData: TableData): GraphData | undefined => {
   const graphData: GraphData = {
     serieList: [],
     xAxis: {
-      label: '',
+      label: "",
       dataType: DataType.number,
       domain: [],
     },
     yAxis: {
-      label: '',
+      label: "",
       dataType: DataType.number,
       domain: [],
     },
@@ -29,7 +29,7 @@ export const buildGraphData = (tableData: TableData): GraphData | undefined => {
       graphData.xAxis.label = regexResult ? regexResult[1].trim() : item.trim();
       let type = graphData.configMap.get(ConfigKind.xAxisType);
       if (!type) {
-        type = regexResult ? regexResult[2].trim().toLocaleLowerCase() : '';
+        type = regexResult ? regexResult[2].trim().toLocaleLowerCase() : "";
       }
 
       switch (type) {
@@ -51,8 +51,6 @@ export const buildGraphData = (tableData: TableData): GraphData | undefined => {
           const firstValue = tableData.rowList[0][0];
           if (isNumber(+firstValue)) {
             graphData.xAxis.dataType = DataType.number;
-          } else if (isDate(new Date(firstValue))) {
-            graphData.xAxis.dataType = DataType.date;
           } else {
             graphData.xAxis.dataType = DataType.category;
           }
@@ -70,9 +68,11 @@ export const buildGraphData = (tableData: TableData): GraphData | undefined => {
   });
 
   const unitList = [
-    ...new Set(graphData.serieList.filter((item) => item.unit).map((item) => item.unit)),
+    ...new Set(
+      graphData.serieList.filter((item) => item.unit).map((item) => item.unit)
+    ),
   ];
-  graphData.yAxis.label = unitList.join(', ');
+  graphData.yAxis.label = unitList.join(", ");
 
   let yMin, yMax, xMin, xMax;
   for (let rowIndex = 0; rowIndex < tableData.rowList.length; rowIndex++) {
@@ -97,7 +97,7 @@ export const buildGraphData = (tableData: TableData): GraphData | undefined => {
         break;
       }
       default: {
-        throw new Error('Unknown DataType');
+        throw new Error("Unknown DataType");
       }
     }
 
@@ -114,8 +114,12 @@ export const buildGraphData = (tableData: TableData): GraphData | undefined => {
   }
 
   let xAxisOrigin =
-    graphData.configMap.get(ConfigKind.xAxisOrigin) ?? AxisOriginKind.fromDataBoundaries;
-  if (graphData.xAxis.dataType === DataType.number && xAxisOrigin === AxisOriginKind.fromZero) {
+    graphData.configMap.get(ConfigKind.xAxisOrigin) ??
+    AxisOriginKind.fromDataBoundaries;
+  if (
+    graphData.xAxis.dataType === DataType.number &&
+    xAxisOrigin === AxisOriginKind.fromZero
+  ) {
     if (xMin > 0) {
       xMin = 0;
     } else if (xMax < 0) {
@@ -124,7 +128,8 @@ export const buildGraphData = (tableData: TableData): GraphData | undefined => {
   }
 
   let yAxisOrigin =
-    graphData.configMap.get(ConfigKind.yAxisOrigin) ?? AxisOriginKind.fromDataBoundaries;
+    graphData.configMap.get(ConfigKind.yAxisOrigin) ??
+    AxisOriginKind.fromDataBoundaries;
   if (yAxisOrigin === AxisOriginKind.fromZero) {
     if (yMin > 0) {
       yMin = 0;
@@ -132,7 +137,10 @@ export const buildGraphData = (tableData: TableData): GraphData | undefined => {
       yMax = 0;
     }
   }
-  if (graphData.xAxis.dataType === DataType.number || graphData.xAxis.dataType === DataType.date) {
+  if (
+    graphData.xAxis.dataType === DataType.number ||
+    graphData.xAxis.dataType === DataType.date
+  ) {
     graphData.xAxis.domain = [xMin, xMax];
   }
   graphData.yAxis.domain = [yMin, yMax];
