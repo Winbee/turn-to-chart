@@ -28,6 +28,7 @@ const WrapperDiv: CSSProperties = {
   flexDirection: "column",
   alignItems: "center",
   gap: "0.5em",
+  margin: "2em 0",
 };
 
 const Svg: CSSProperties = {
