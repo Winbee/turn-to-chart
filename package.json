@@ -1,7 +1,7 @@
 {
   "name": "turn-to-chart",
-  "private": true,
   "version": "0.0.1",
+  "homepage": "https://github.com/Winbee/turn-to-chart",
   "type": "module",
   "files": [
     "dist"
