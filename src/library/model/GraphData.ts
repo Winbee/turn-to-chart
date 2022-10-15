@@ -1,4 +1,4 @@
-import { ConfigMap } from './ConfigData';
+import { ConfigMap } from "./ConfigData";
 
 export interface GraphData {
   serieList: Serie[];
@@ -18,6 +18,7 @@ export interface GraphData {
 export interface Serie {
   name: string;
   unit?: string;
+  label: string;
   pointList: Point[];
 }
 
@@ -27,9 +28,9 @@ export interface Point {
 }
 
 export enum DataType {
-  number = 'number',
-  date = 'date',
-  category = 'category',
+  number = "number",
+  date = "date",
+  category = "category",
 }
 
 export type XType = number | Date | string;

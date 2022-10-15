@@ -14,6 +14,7 @@ describe("htmlGenerator", () => {
             {
               name: "serie1",
               unit: "unit1",
+              label: "serie1 (unit1)",
               pointList: [
                 { x: 0, y: 2 },
                 { x: 1, y: 4 },
@@ -41,6 +42,7 @@ describe("htmlGenerator", () => {
             {
               name: "serie1",
               unit: "unit1",
+              label: "serie1 (unit1)",
               pointList: [
                 { x: 0, y: 2 },
                 { x: 1, y: 4 },
@@ -50,6 +52,7 @@ describe("htmlGenerator", () => {
             {
               name: "serie2",
               unit: "unit2",
+              label: "serie2 (unit2)",
               pointList: [
                 { x: 0, y: 4 },
                 { x: 1, y: 5 },
@@ -70,34 +73,37 @@ describe("htmlGenerator", () => {
           configMap: new Map(),
         },
       },
-      // TODO: This test is failing in github action
-      // {
-      //   title: 'one line of numbers by date',
-      //   input: {
-      //     serieList: [
-      //       {
-      //         name: 'serie1',
-      //         unit: 'unit1',
-      //         pointList: [
-      //           { x: new Date('2021-01-02T12:00:00.000Z'), y: 2 },
-      //           { x: new Date('2021-03-02T12:00:00.000Z'), y: 4 },
-      //           { x: new Date('2021-04-02T12:00:00.000Z'), y: 8 },
-      //         ],
-      //       },
-      //     ],
-      //     xAxis: {
-      //       label: 'xLabel',
-      //       dataType: DataType.date,
-      //       domain: [new Date('2021-01-02T12:00:00.000Z'), new Date('2021-04-02T12:00:00.000Z')],
-      //     },
-      //     yAxis: {
-      //       label: 'unit1',
-      //       dataType: DataType.number,
-      //       domain: [0, 8],
-      //     },
-      //     configMap: new Map(),
-      //   },
-      // },
+      {
+        title: "one line of numbers by date",
+        input: {
+          serieList: [
+            {
+              name: "serie1",
+              unit: "unit1",
+              label: "serie1 (unit1)",
+              pointList: [
+                { x: new Date("2021-01-02T12:00:00.000Z"), y: 2 },
+                { x: new Date("2021-03-02T12:00:00.000Z"), y: 4 },
+                { x: new Date("2021-04-02T12:00:00.000Z"), y: 8 },
+              ],
+            },
+          ],
+          xAxis: {
+            label: "xLabel",
+            dataType: DataType.date,
+            domain: [
+              new Date("2021-01-02T12:00:00.000Z"),
+              new Date("2021-04-02T12:00:00.000Z"),
+            ],
+          },
+          yAxis: {
+            label: "unit1",
+            dataType: DataType.number,
+            domain: [0, 8],
+          },
+          configMap: new Map(),
+        },
+      },
       {
         title: "one line of numbers by category",
         input: {
@@ -105,6 +111,7 @@ describe("htmlGenerator", () => {
             {
               name: "serie1",
               unit: "unit1",
+              label: "serie1 (unit1)",
               pointList: [
                 { x: "category 1", y: 2 },
                 { x: "category 2", y: 4 },
@@ -132,6 +139,7 @@ describe("htmlGenerator", () => {
             {
               name: "serie1",
               unit: "unit1",
+              label: "serie1 (unit1)",
               pointList: [
                 { x: "category 1", y: 2 },
                 { x: "category 2", y: 4 },
@@ -141,6 +149,7 @@ describe("htmlGenerator", () => {
             {
               name: "serie2",
               unit: "unit2",
+              label: "serie2 (unit2)",
               pointList: [
                 { x: "category 1", y: 4 },
                 { x: "category 2", y: 5 },
@@ -150,6 +159,7 @@ describe("htmlGenerator", () => {
             {
               name: "serie3",
               unit: "unit3",
+              label: "serie3 (unit3)",
               pointList: [
                 { x: "category 1", y: 1 },
                 { x: "category 2", y: 2 },

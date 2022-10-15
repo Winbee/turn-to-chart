@@ -2,7 +2,7 @@ import { AxisOriginKind, ConfigKind } from "../model/ConfigData";
 import { DataType, GraphData, Point, Serie, XType } from "../model/GraphData";
 import { TableData } from "../model/TableData";
 import { buildConfigData } from "./configBuilder";
-import { isDate, isNumber } from "./utils";
+import { isNumber } from "./utils";
 
 const X_LABEL_REGEX = /(.*?)\[(.*?)\]/;
 const Y_LABEL_REGEX = /(.*?)\((.*?)\)/;
@@ -58,9 +58,12 @@ export const buildGraphData = (tableData: TableData): GraphData | undefined => {
       }
     } else {
       const regexResult = Y_LABEL_REGEX.exec(item);
+      const name = regexResult ? regexResult[1].trim() : item.trim();
+      const unit = regexResult ? regexResult[2].trim() : undefined;
       const newSerie: Serie = {
-        name: regexResult ? regexResult[1].trim() : item.trim(),
-        unit: regexResult ? regexResult[2].trim() : undefined,
+        name,
+        unit,
+        label: name + (unit ? ` (${unit})` : ""),
         pointList: [],
       };
       graphData.serieList.push(newSerie);

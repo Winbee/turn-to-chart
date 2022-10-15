@@ -5,12 +5,12 @@ import { generateHtml } from "./service/htmlGenerator";
 export const generateHtmlString = (content: string): string => {
   const tableData = extractTableData(content);
   if (!tableData) {
-    return "no table data";
+    return "";
   }
 
   const graphData = buildGraphData(tableData);
   if (!graphData) {
-    return "no graph data";
+    return "";
   }
 
   return generateHtml(graphData);

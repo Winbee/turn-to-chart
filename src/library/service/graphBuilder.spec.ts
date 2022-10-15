@@ -1,28 +1,33 @@
 import { test, describe, expect } from "vitest";
-import { ConfigKind } from '../model/ConfigData';
-import { DataType, GraphData } from '../model/GraphData';
-import { TableData } from '../model/TableData';
-import { buildGraphData } from './graphBuilder';
+import { ConfigKind } from "../model/ConfigData";
+import { DataType, GraphData } from "../model/GraphData";
+import { TableData } from "../model/TableData";
+import { buildGraphData } from "./graphBuilder";
 
-describe('graphBuilder', () => {
-  describe('buildGraphData', () => {
-    const cases: { title: string; input: TableData; expectedOutput: GraphData }[] = [
+describe("graphBuilder", () => {
+  describe("buildGraphData", () => {
+    const cases: {
+      title: string;
+      input: TableData;
+      expectedOutput: GraphData;
+    }[] = [
       {
-        title: 'one number serie with x-axis starting at zero',
+        title: "one number serie with x-axis starting at zero",
         input: {
-          headList: ['xLabel', 'serie1 (kilo)'],
+          headList: ["xLabel", "serie1 (kilo)"],
           rowList: [
-            ['10', '2'],
-            ['20', '4'],
-            ['30', '8'],
+            ["10", "2"],
+            ["20", "4"],
+            ["30", "8"],
           ],
-          configList: ['xAxisOrigin: from zero'],
+          configList: ["xAxisOrigin: from zero"],
         },
         expectedOutput: {
           serieList: [
             {
-              name: 'serie1',
-              unit: 'kilo',
+              name: "serie1",
+              unit: "kilo",
+              label: "serie1 (kilo)",
               pointList: [
                 { x: 10, y: 2 },
                 { x: 20, y: 4 },
@@ -31,34 +36,35 @@ describe('graphBuilder', () => {
             },
           ],
           xAxis: {
-            label: 'xLabel',
+            label: "xLabel",
             dataType: DataType.number,
             domain: [0, 30],
           },
           yAxis: {
-            label: 'kilo',
+            label: "kilo",
             dataType: DataType.number,
             domain: [2, 8],
           },
-          configMap: new Map([[ConfigKind.xAxisOrigin, 'from zero']]),
+          configMap: new Map([[ConfigKind.xAxisOrigin, "from zero"]]),
         },
       },
       {
-        title: 'one number serie with y-axis starting at zero',
+        title: "one number serie with y-axis starting at zero",
         input: {
-          headList: ['xLabel', 'serie1 (kilo)'],
+          headList: ["xLabel", "serie1 (kilo)"],
           rowList: [
-            ['10', '2'],
-            ['20', '4'],
-            ['30', '8'],
+            ["10", "2"],
+            ["20", "4"],
+            ["30", "8"],
           ],
-          configList: ['yAxisOrigin: from zero'],
+          configList: ["yAxisOrigin: from zero"],
         },
         expectedOutput: {
           serieList: [
             {
-              name: 'serie1',
-              unit: 'kilo',
+              name: "serie1",
+              unit: "kilo",
+              label: "serie1 (kilo)",
               pointList: [
                 { x: 10, y: 2 },
                 { x: 20, y: 4 },
@@ -67,34 +73,35 @@ describe('graphBuilder', () => {
             },
           ],
           xAxis: {
-            label: 'xLabel',
+            label: "xLabel",
             dataType: DataType.number,
             domain: [10, 30],
           },
           yAxis: {
-            label: 'kilo',
+            label: "kilo",
             dataType: DataType.number,
             domain: [0, 8],
           },
-          configMap: new Map([[ConfigKind.yAxisOrigin, 'from zero']]),
+          configMap: new Map([[ConfigKind.yAxisOrigin, "from zero"]]),
         },
       },
       {
-        title: 'one number serie with both axis starting at zero',
+        title: "one number serie with both axis starting at zero",
         input: {
-          headList: ['xLabel', 'serie1 (kilo)'],
+          headList: ["xLabel", "serie1 (kilo)"],
           rowList: [
-            ['10', '2'],
-            ['20', '4'],
-            ['30', '8'],
+            ["10", "2"],
+            ["20", "4"],
+            ["30", "8"],
           ],
-          configList: ['xAxisOrigin: from zero', 'yAxisOrigin: from zero'],
+          configList: ["xAxisOrigin: from zero", "yAxisOrigin: from zero"],
         },
         expectedOutput: {
           serieList: [
             {
-              name: 'serie1',
-              unit: 'kilo',
+              name: "serie1",
+              unit: "kilo",
+              label: "serie1 (kilo)",
               pointList: [
                 { x: 10, y: 2 },
                 { x: 20, y: 4 },
@@ -103,43 +110,44 @@ describe('graphBuilder', () => {
             },
           ],
           xAxis: {
-            label: 'xLabel',
+            label: "xLabel",
             dataType: DataType.number,
             domain: [0, 30],
           },
           yAxis: {
-            label: 'kilo',
+            label: "kilo",
             dataType: DataType.number,
             domain: [0, 8],
           },
           configMap: new Map([
-            [ConfigKind.xAxisOrigin, 'from zero'],
-            [ConfigKind.yAxisOrigin, 'from zero'],
+            [ConfigKind.xAxisOrigin, "from zero"],
+            [ConfigKind.yAxisOrigin, "from zero"],
           ]),
         },
       },
       {
-        title: 'one number serie with x-with-unit',
+        title: "one number serie with x-with-unit",
         input: {
-          headList: ['xLabel (unit)', 'serie1 (kilo)'],
-          rowList: [['10', '2']],
+          headList: ["xLabel (unit)", "serie1 (kilo)"],
+          rowList: [["10", "2"]],
           configList: [],
         },
         expectedOutput: {
           serieList: [
             {
-              name: 'serie1',
-              unit: 'kilo',
+              name: "serie1",
+              unit: "kilo",
+              label: "serie1 (kilo)",
               pointList: [{ x: 10, y: 2 }],
             },
           ],
           xAxis: {
-            label: 'xLabel (unit)',
+            label: "xLabel (unit)",
             dataType: DataType.number,
             domain: [10, 10],
           },
           yAxis: {
-            label: 'kilo',
+            label: "kilo",
             dataType: DataType.number,
             domain: [2, 2],
           },
@@ -147,107 +155,110 @@ describe('graphBuilder', () => {
         },
       },
       {
-        title: 'one time-serie',
+        title: "one time-serie",
         input: {
-          headList: ['xLabel [date]', 'serie1 (kilo)'],
+          headList: ["xLabel [date]", "serie1 (kilo)"],
           rowList: [
-            ['2021-01-02', '2'],
-            ['2021-03-02', '4'],
-            ['2021-04-02', '8'],
+            ["2021-01-02", "2"],
+            ["2021-03-02", "4"],
+            ["2021-04-02", "8"],
           ],
-          configList: ['yAxisOrigin: from zero'],
+          configList: ["yAxisOrigin: from zero"],
         },
         expectedOutput: {
           serieList: [
             {
-              name: 'serie1',
-              unit: 'kilo',
+              name: "serie1",
+              unit: "kilo",
+              label: "serie1 (kilo)",
               pointList: [
-                { x: new Date('2021-01-02'), y: 2 },
-                { x: new Date('2021-03-02'), y: 4 },
-                { x: new Date('2021-04-02'), y: 8 },
+                { x: new Date("2021-01-02"), y: 2 },
+                { x: new Date("2021-03-02"), y: 4 },
+                { x: new Date("2021-04-02"), y: 8 },
               ],
             },
           ],
           xAxis: {
-            label: 'xLabel',
+            label: "xLabel",
             dataType: DataType.date,
-            domain: [new Date('2021-01-02'), new Date('2021-04-02')],
+            domain: [new Date("2021-01-02"), new Date("2021-04-02")],
           },
           yAxis: {
-            label: 'kilo',
+            label: "kilo",
             dataType: DataType.number,
             domain: [0, 8],
           },
-          configMap: new Map([[ConfigKind.yAxisOrigin, 'from zero']]),
+          configMap: new Map([[ConfigKind.yAxisOrigin, "from zero"]]),
         },
       },
       {
-        title: 'one time-serie by guessing',
+        title: "one category-serie if a time-serie is not specified",
         input: {
-          headList: ['xLabel', 'serie1 (kilo)'],
+          headList: ["xLabel", "serie1 (kilo)"],
           rowList: [
-            ['2021-01-02', '2'],
-            ['2021-03-02', '4'],
-            ['2021-04-02', '8'],
+            ["2021-01-02", "2"],
+            ["2021-03-02", "4"],
+            ["2021-04-02", "8"],
           ],
-          configList: ['yAxisOrigin: from zero'],
+          configList: ["yAxisOrigin: from zero"],
         },
         expectedOutput: {
           serieList: [
             {
-              name: 'serie1',
-              unit: 'kilo',
+              name: "serie1",
+              unit: "kilo",
+              label: "serie1 (kilo)",
               pointList: [
-                { x: new Date('2021-01-02'), y: 2 },
-                { x: new Date('2021-03-02'), y: 4 },
-                { x: new Date('2021-04-02'), y: 8 },
+                { x: "2021-01-02", y: 2 },
+                { x: "2021-03-02", y: 4 },
+                { x: "2021-04-02", y: 8 },
               ],
             },
           ],
           xAxis: {
-            label: 'xLabel',
-            dataType: DataType.date,
-            domain: [new Date('2021-01-02'), new Date('2021-04-02')],
+            label: "xLabel",
+            dataType: DataType.category,
+            domain: ["2021-01-02", "2021-03-02", "2021-04-02"],
           },
           yAxis: {
-            label: 'kilo',
+            label: "kilo",
             dataType: DataType.number,
             domain: [0, 8],
           },
-          configMap: new Map([[ConfigKind.yAxisOrigin, 'from zero']]),
+          configMap: new Map([[ConfigKind.yAxisOrigin, "from zero"]]),
         },
       },
       {
-        title: 'one category serie',
+        title: "one category serie",
         input: {
-          headList: ['xLabel [category]', 'serie1 (kilo)'],
+          headList: ["xLabel [category]", "serie1 (kilo)"],
           rowList: [
-            ['category 1', '2'],
-            ['category 2', '4'],
-            ['category 3', '8'],
+            ["category 1", "2"],
+            ["category 2", "4"],
+            ["category 3", "8"],
           ],
           configList: [],
         },
         expectedOutput: {
           serieList: [
             {
-              name: 'serie1',
-              unit: 'kilo',
+              name: "serie1",
+              unit: "kilo",
+              label: "serie1 (kilo)",
               pointList: [
-                { x: 'category 1', y: 2 },
-                { x: 'category 2', y: 4 },
-                { x: 'category 3', y: 8 },
+                { x: "category 1", y: 2 },
+                { x: "category 2", y: 4 },
+                { x: "category 3", y: 8 },
               ],
             },
           ],
           xAxis: {
-            label: 'xLabel',
+            label: "xLabel",
             dataType: DataType.category,
-            domain: ['category 1', 'category 2', 'category 3'],
+            domain: ["category 1", "category 2", "category 3"],
           },
           yAxis: {
-            label: 'kilo',
+            label: "kilo",
             dataType: DataType.number,
             domain: [2, 8],
           },
@@ -255,35 +266,36 @@ describe('graphBuilder', () => {
         },
       },
       {
-        title: 'one category serie by guessing',
+        title: "one category serie by guessing",
         input: {
-          headList: ['xLabel', 'serie1 (kilo)'],
+          headList: ["xLabel", "serie1 (kilo)"],
           rowList: [
-            ['category one', '2'],
-            ['category two', '4'],
-            ['category three', '8'],
+            ["category one", "2"],
+            ["category two", "4"],
+            ["category three", "8"],
           ],
           configList: [],
         },
         expectedOutput: {
           serieList: [
             {
-              name: 'serie1',
-              unit: 'kilo',
+              name: "serie1",
+              unit: "kilo",
+              label: "serie1 (kilo)",
               pointList: [
-                { x: 'category one', y: 2 },
-                { x: 'category two', y: 4 },
-                { x: 'category three', y: 8 },
+                { x: "category one", y: 2 },
+                { x: "category two", y: 4 },
+                { x: "category three", y: 8 },
               ],
             },
           ],
           xAxis: {
-            label: 'xLabel',
+            label: "xLabel",
             dataType: DataType.category,
-            domain: ['category one', 'category two', 'category three'],
+            domain: ["category one", "category two", "category three"],
           },
           yAxis: {
-            label: 'kilo',
+            label: "kilo",
             dataType: DataType.number,
             domain: [2, 8],
           },
@@ -291,22 +303,23 @@ describe('graphBuilder', () => {
         },
       },
       {
-        title: 'three number series',
+        title: "three number series",
         input: {
-          headList: ['xLabel', 'serie1', 'serie2', 'serie3'],
+          headList: ["xLabel", "serie1", "serie2", "serie3"],
           rowList: [
-            ['1', '2', '1', '0'],
-            ['2', '1', '1', '4'],
-            ['3', '0', '4', '1'],
-            ['4', '5', '2', '3'],
+            ["1", "2", "1", "0"],
+            ["2", "1", "1", "4"],
+            ["3", "0", "4", "1"],
+            ["4", "5", "2", "3"],
           ],
-          configList: ['yAxisOrigin: from zero'],
+          configList: ["yAxisOrigin: from zero"],
         },
         expectedOutput: {
           serieList: [
             {
-              name: 'serie1',
+              name: "serie1",
               unit: undefined,
+              label: "serie1",
               pointList: [
                 { x: 1, y: 2 },
                 { x: 2, y: 1 },
@@ -315,8 +328,9 @@ describe('graphBuilder', () => {
               ],
             },
             {
-              name: 'serie2',
+              name: "serie2",
               unit: undefined,
+              label: "serie2",
               pointList: [
                 { x: 1, y: 1 },
                 { x: 2, y: 1 },
@@ -325,8 +339,9 @@ describe('graphBuilder', () => {
               ],
             },
             {
-              name: 'serie3',
+              name: "serie3",
               unit: undefined,
+              label: "serie3",
               pointList: [
                 { x: 1, y: 0 },
                 { x: 2, y: 4 },
@@ -336,24 +351,27 @@ describe('graphBuilder', () => {
             },
           ],
           xAxis: {
-            label: 'xLabel',
+            label: "xLabel",
             dataType: DataType.number,
             domain: [1, 4],
           },
           yAxis: {
-            label: '',
+            label: "",
             dataType: DataType.number,
             domain: [0, 5],
           },
-          configMap: new Map([[ConfigKind.yAxisOrigin, 'from zero']]),
+          configMap: new Map([[ConfigKind.yAxisOrigin, "from zero"]]),
         },
       },
     ];
 
-    test.each(cases)('return expected value for $title', ({ input, expectedOutput }) => {
-      const output = buildGraphData(input);
+    test.each(cases)(
+      "return expected value for $title",
+      ({ input, expectedOutput }) => {
+        const output = buildGraphData(input);
 
-      expect(output).toEqual(expectedOutput);
-    });
+        expect(output).toEqual(expectedOutput);
+      }
+    );
   });
 });
