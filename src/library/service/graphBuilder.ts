@@ -12,7 +12,6 @@ export const buildGraphData = (tableData: TableData): GraphData | undefined => {
     serieList: [],
     xAxis: {
       label: "",
-      dataType: DataType.number,
       domain: [],
     },
     yAxis: {
@@ -60,7 +59,7 @@ export const buildGraphData = (tableData: TableData): GraphData | undefined => {
       const regexResult = Y_LABEL_REGEX.exec(item);
       const name = regexResult ? regexResult[1].trim() : item.trim();
       const unit = regexResult ? regexResult[2].trim() : undefined;
-      const newSerie: Serie = {
+      const newSerie: Serie<any> = {
         name,
         unit,
         label: name + (unit ? ` (${unit})` : ""),
@@ -72,7 +71,9 @@ export const buildGraphData = (tableData: TableData): GraphData | undefined => {
 
   const unitList = [
     ...new Set(
-      graphData.serieList.filter((item) => item.unit).map((item) => item.unit)
+      graphData.serieList
+        .filter((item: any) => item.unit)
+        .map((item: any) => item.unit)
     ),
   ];
   graphData.yAxis.label = unitList.join(", ");
@@ -106,7 +107,7 @@ export const buildGraphData = (tableData: TableData): GraphData | undefined => {
 
     for (let columnIndex = 1; columnIndex < currentRow.length; columnIndex++) {
       const y = +currentRow[columnIndex];
-      const newPoint: Point = {
+      const newPoint: Point<any> = {
         x,
         y,
       };
@@ -123,9 +124,9 @@ export const buildGraphData = (tableData: TableData): GraphData | undefined => {
     graphData.xAxis.dataType === DataType.number &&
     xAxisOrigin === AxisOriginKind.fromZero
   ) {
-    if (xMin > 0) {
+    if (xMin != null && xMin > 0) {
       xMin = 0;
-    } else if (xMax < 0) {
+    } else if (xMax != null && xMax < 0) {
       xMax = 0;
     }
   }
@@ -134,9 +135,9 @@ export const buildGraphData = (tableData: TableData): GraphData | undefined => {
     graphData.configMap.get(ConfigKind.yAxisOrigin) ??
     AxisOriginKind.fromDataBoundaries;
   if (yAxisOrigin === AxisOriginKind.fromZero) {
-    if (yMin > 0) {
+    if (yMin != null && yMin > 0) {
       yMin = 0;
-    } else if (yMax < 0) {
+    } else if (yMax != null && yMax < 0) {
       yMax = 0;
     }
   }
@@ -144,9 +145,9 @@ export const buildGraphData = (tableData: TableData): GraphData | undefined => {
     graphData.xAxis.dataType === DataType.number ||
     graphData.xAxis.dataType === DataType.date
   ) {
-    graphData.xAxis.domain = [xMin, xMax];
+    graphData.xAxis.domain = [xMin as any, xMax];
   }
-  graphData.yAxis.domain = [yMin, yMax];
+  graphData.yAxis.domain = [yMin as any, yMax];
 
   return graphData;
 };

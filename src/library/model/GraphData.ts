@@ -1,29 +1,34 @@
 import { ConfigMap } from "./ConfigData";
 
-export interface GraphData {
-  serieList: Serie[];
+export type GraphData =
+  | AbstractGraphData<number, DataType.number>
+  | AbstractGraphData<Date, DataType.date>
+  | AbstractGraphData<string, DataType.category>;
+
+interface AbstractGraphData<T extends XType, K extends DataType> {
+  serieList: Serie<T>[];
   xAxis: {
     label: string;
-    dataType: DataType;
-    domain: XType[];
+    dataType?: K;
+    domain: T[];
   };
   yAxis: {
     label: string;
-    dataType: DataType;
+    dataType: DataType.number;
     domain: YType[];
   };
   configMap: ConfigMap;
 }
 
-export interface Serie {
+export interface Serie<T extends XType> {
   name: string;
   unit?: string;
   label: string;
-  pointList: Point[];
+  pointList: Point<T>[];
 }
 
-export interface Point {
-  x: XType;
+export interface Point<T extends XType> {
+  x: T;
   y: YType;
 }
 

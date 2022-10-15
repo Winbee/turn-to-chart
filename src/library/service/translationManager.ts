@@ -1,35 +1,35 @@
-import arEG from "./locale/ar-EG.json"; // Arabic (Egypt)
-import caES from "./locale/ca-ES.json"; // Catalan (Spain)
-import csCZ from "./locale/cs-CZ.json"; // Czech (Czech Republic)
-import daDK from "./locale/da-DK.json"; // Danish (Denmark)
-import deCH from "./locale/de-CH.json"; // German (Switzerland)
-import deDE from "./locale/de-DE.json"; // German (Germany)
-import enCA from "./locale/en-CA.json"; // English (Canada)
-import enGB from "./locale/en-GB.json"; // English (United Kingdom)
-import enUS from "./locale/en-US.json"; // English (United States)
-import esES from "./locale/es-ES.json"; // Spanish (Spain)
-import esMX from "./locale/es-MX.json"; // Spanish (Mexico)
-import faIR from "./locale/fa-IR.json"; // Persian (Iran)
-import fiFI from "./locale/fi-FI.json"; // Finnish (Finland)
-import frCA from "./locale/fr-CA.json"; // French (Canada)
-import frFR from "./locale/fr-FR.json"; // French (France)
-import heIL from "./locale/he-IL.json"; // Hebrew (Israel)
-import hrHR from "./locale/hr-HR.json"; // Croatian (Croatia)
-import huHU from "./locale/hu-HU.json"; // Hungarian (Hungary)
-import itIT from "./locale/it-IT.json"; // Italian (Italy)
-import jaJP from "./locale/ja-JP.json"; // Japanese (Japan)
-import koKR from "./locale/ko-KR.json"; // Korean (South Korea)
-import mkMK from "./locale/mk-MK.json"; // Macedonian (Macedonia)
-import nbNO from "./locale/nb-NO.json"; // Norwegian Bokmål (Norway)
-import nlNL from "./locale/nl-NL.json"; // Dutch (Netherlands)
-import plPL from "./locale/pl-PL.json"; // Polish (Poland)
-import ptBR from "./locale/pt-BR.json"; // Portuguese (Brazil)
-import ruRU from "./locale/ru-RU.json"; // Russian (Russia)
-import svSE from "./locale/sv-SE.json"; // Swedish (Sweden)
-import trTR from "./locale/tr-TR.json"; // Turkish (Turkey)
-import ukUA from "./locale/uk-UA.json"; // Ukrainian (Ukraine)
-import zhCN from "./locale/zh-CN.json"; // Chinese (China)
-import zhTW from "./locale/zh-TW.json"; // Chinese (Taiwan)
+import arEG from "./locale/ar-EG.json";
+import caES from "./locale/ca-ES.json";
+import csCZ from "./locale/cs-CZ.json";
+import daDK from "./locale/da-DK.json";
+import deCH from "./locale/de-CH.json";
+import deDE from "./locale/de-DE.json";
+import enCA from "./locale/en-CA.json";
+import enGB from "./locale/en-GB.json";
+import enUS from "./locale/en-US.json";
+import esES from "./locale/es-ES.json";
+import esMX from "./locale/es-MX.json";
+import faIR from "./locale/fa-IR.json";
+import fiFI from "./locale/fi-FI.json";
+import frCA from "./locale/fr-CA.json";
+import frFR from "./locale/fr-FR.json";
+import heIL from "./locale/he-IL.json";
+import hrHR from "./locale/hr-HR.json";
+import huHU from "./locale/hu-HU.json";
+import itIT from "./locale/it-IT.json";
+import jaJP from "./locale/ja-JP.json";
+import koKR from "./locale/ko-KR.json";
+import mkMK from "./locale/mk-MK.json";
+import nbNO from "./locale/nb-NO.json";
+import nlNL from "./locale/nl-NL.json";
+import plPL from "./locale/pl-PL.json";
+import ptBR from "./locale/pt-BR.json";
+import ruRU from "./locale/ru-RU.json";
+import svSE from "./locale/sv-SE.json";
+import trTR from "./locale/tr-TR.json";
+import ukUA from "./locale/uk-UA.json";
+import zhCN from "./locale/zh-CN.json";
+import zhTW from "./locale/zh-TW.json";
 
 export enum AvailableLocale {
   arEG = "ar-EG", // Arabic (Egypt)

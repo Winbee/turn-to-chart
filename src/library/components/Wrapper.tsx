@@ -1,24 +1,28 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { format } from "d3-format";
-import { timeFormat, timeFormatDefaultLocale } from "d3-time-format";
+import { timeFormatDefaultLocale } from "d3-time-format";
 import { schemeTableau10 } from "d3-scale-chromatic";
-import { AxisBottom, AxisLeft } from "@visx/axis";
-import { scaleLinear, scaleOrdinal, scaleTime, scaleBand } from "@visx/scale";
-import { LegendOrdinal } from "@visx/legend";
-import { BarGroup } from "@visx/shape";
-import { Group } from "@visx/group";
-import { GradientTealBlue } from "@visx/gradient";
-import { LinePath } from "@visx/shape";
-import { RectClipPath } from "@visx/clip-path";
+import {
+  scaleLinear,
+  scaleOrdinal,
+  scaleTime,
+  scaleBand,
+  PickD3Scale,
+} from "@visx/scale";
 
 import { DataType, GraphData } from "../model/GraphData";
-import { ConfigKind, LegendOrientation } from "../model/ConfigData";
+import { ConfigKind } from "../model/ConfigData";
 import {
   AvailableLocale,
   getDateTimeLocale,
   getLocale,
 } from "../service/translationManager";
+import { LegendSection } from "./LegendSection";
+import { Dimension } from "../model/UiType";
+import { AxisSection } from "./AxisSection";
+import { LineSection } from "./LineSection";
+import { BarSection, X0_PADDING } from "./BarSection";
+import { ClippedPathGroup } from "./ClippedPathGroup";
 
 const WrapperDiv = styled.div`
   display: flex;
@@ -32,33 +36,38 @@ const Svg = styled.svg`
   max-width: 50em;
 `;
 
-const LegendWrapper = styled.div`
-  padding: 0.2em;
-  border-radius: 5px;
-  background: #8282821c;
-`;
-
 const BackgroundRect = styled.rect`
   border-radius: 4px;
   fill: #8282821c;
 `;
 
-const LegendTitle = styled.div`
-  margin: 0.4em 0;
-  font-weight: 600;
-`;
-
-interface WrapperPros {
-  graphData: GraphData;
-}
-
-export const Wrapper = ({ graphData }: WrapperPros) => {
+const computeDimension = () => {
   const width = 600;
   const height = 400;
 
   const margin = { top: 20, right: 30, bottom: 60, left: 65 };
   const chartWidth = width - margin.left - margin.right;
   const chartHeight = height - margin.top - margin.bottom;
+
+  const dimension: Dimension = {
+    width,
+    height,
+    margin,
+    chart: {
+      width: chartWidth,
+      height: chartHeight,
+    },
+  };
+
+  return dimension;
+};
+
+interface WrapperPros {
+  graphData: GraphData;
+}
+
+export const Wrapper = ({ graphData }: WrapperPros) => {
+  const dimension = computeDimension();
 
   const customLocale = graphData.configMap.get(ConfigKind.customLocale);
   const locale = getLocale(
@@ -67,8 +76,7 @@ export const Wrapper = ({ graphData }: WrapperPros) => {
   const d3TimeLocale = getDateTimeLocale(locale);
   timeFormatDefaultLocale(d3TimeLocale);
 
-  let xScale;
-  const x0Padding = 0.2;
+  let xScale: PickD3Scale<any, any, any>;
   switch (graphData.xAxis.dataType) {
     case DataType.number: {
       xScale = scaleLinear();
@@ -80,7 +88,7 @@ export const Wrapper = ({ graphData }: WrapperPros) => {
     }
     case DataType.category: {
       xScale = scaleBand({
-        padding: x0Padding,
+        padding: X0_PADDING,
       });
       break;
     }
@@ -90,184 +98,55 @@ export const Wrapper = ({ graphData }: WrapperPros) => {
   }
   xScale = (xScale.domain(graphData.xAxis.domain) as any).range([
     0,
-    chartWidth,
+    dimension.chart.width,
   ]);
   const yScale = scaleLinear()
     .domain(graphData.yAxis.domain)
-    .range([chartHeight, 0]);
+    .range([dimension.chart.height, 0]);
 
   const serieListLabels = graphData.serieList.map((item) => item.label);
   const colorScale = scaleOrdinal()
     .domain(serieListLabels)
     .range(schemeTableau10);
 
-  // Add the legend
-  const legendIsVertical =
-    graphData.configMap.get(ConfigKind.legendOrientation) ===
-    LegendOrientation.vertical;
-
-  const keys = graphData.serieList.map((item) => item.label);
-  const transformedData = [];
-  graphData.serieList.forEach((series, indexSeries) => {
-    series.pointList.forEach((point, index) => {
-      if (indexSeries === 0) {
-        transformedData.push({
-          x0: point.x,
-        });
-      }
-      const transformedPoint = transformedData[index];
-      transformedPoint[series.label] = point.y;
-    });
-  });
-  const x0Scale = scaleBand<string>({
-    domain: transformedData.map((d) => d.x0),
-    padding: x0Padding,
-  });
-  const x1Scale = scaleBand<string>({
-    domain: keys,
-    padding: 0.1,
-  });
-
-  x0Scale.rangeRound([0, chartWidth]);
-  x1Scale.rangeRound([0, x0Scale.bandwidth()]);
-
-  const xAxisNbOfTicks = graphData.configMap.get(ConfigKind.xAxisNbOfTicks);
-  const xAxisFormat = graphData.configMap.get(ConfigKind.xAxisFormat);
-  const yAxisNbOfTicks = graphData.configMap.get(ConfigKind.yAxisNbOfTicks);
-  const yAxisFormat = graphData.configMap.get(ConfigKind.yAxisFormat);
-  const legendTitle = graphData.configMap.get(ConfigKind.legendTitle);
-
-  const tickXLabelProps = {
-    fill: "currentColor",
-    fontSize: 12,
-    fontFamily: "sans-serif",
-    textAnchor: "middle",
-  };
-
-  const tickYLabelProps = {
-    fill: "currentColor",
-    fontSize: 12,
-    fontFamily: "sans-serif",
-    textAnchor: "end",
-    dx: "-0.25em",
-    dy: "0.33em",
-  };
-
-  const labelProps = {
-    fill: "currentColor",
-    fontSize: 12,
-    fontFamily: "sans-serif",
-    textAnchor: "middle",
-  };
-
   return (
     <WrapperDiv>
-      <Svg viewBox={`0 0 ${width} ${height}`} width={width} height={height}>
-        <BackgroundRect width={width} height={height} rx={8} />
-        <RectClipPath id="chart-clip" width={chartWidth} height={chartHeight} />
-        <Group clipPath="url(#chart-clip)" top={margin.top} left={margin.left}>
-          {graphData.xAxis.dataType !== DataType.category &&
-            graphData.serieList.map((item, index) => (
-              <>
-                <LinePath
-                  key={`line-path-${item.label}-${index}`}
-                  data={item.pointList}
-                  x={(d) => xScale(d.x) ?? 0}
-                  y={(d) => yScale(d.y) ?? 0}
-                  stroke={colorScale(item.label)}
-                  shapeRendering="geometricPrecision"
-                />
-                {item.pointList.map((d, i) => (
-                  <circle
-                    key={`line-path-${item.label}-${index}-point-${i}`}
-                    cx={xScale(d.x) ?? 0}
-                    cy={yScale(d.y) ?? 0}
-                    r={2}
-                    fill={colorScale(item.label)}
-                  />
-                ))}
-              </>
-            ))}
-          {graphData.xAxis.dataType === DataType.category && (
-            <BarGroup
-              data={transformedData}
-              keys={keys}
-              height={chartHeight}
-              x0={(d) => d.x0}
-              x0Scale={x0Scale}
-              x1Scale={x1Scale}
-              yScale={yScale}
-              color={colorScale}
-            >
-              {(barGroups) =>
-                barGroups.map((barGroup) => (
-                  <Group
-                    key={`bar-group-${barGroup.index}-${barGroup.x0}`}
-                    left={barGroup.x0}
-                  >
-                    {barGroup.bars.map((bar) => (
-                      <rect
-                        key={`bar-group-bar-${barGroup.index}-${bar.index}-${bar.value}-${bar.key}`}
-                        x={bar.x}
-                        y={bar.y}
-                        width={bar.width}
-                        height={bar.height}
-                        fill={bar.color}
-                        rx={4}
-                      />
-                    ))}
-                  </Group>
-                ))
-              }
-            </BarGroup>
-          )}
-        </Group>
-        <AxisLeft
-          top={margin.top}
-          left={margin.left}
-          scale={yScale}
-          numTicks={yAxisNbOfTicks ? +yAxisNbOfTicks : undefined}
-          tickFormat={yAxisFormat ? format(yAxisFormat) : undefined}
-          stroke="currentColor"
-          tickStroke="currentColor"
-          label={graphData.yAxis.label}
-          tickLabelProps={() => tickYLabelProps}
-          labelProps={labelProps}
+      <Svg
+        viewBox={`0 0 ${dimension.width} ${dimension.height}`}
+        width={dimension.width}
+        height={dimension.height}
+      >
+        <BackgroundRect
+          width={dimension.width}
+          height={dimension.height}
+          rx={8}
         />
-        <AxisBottom
-          top={chartHeight + margin.top}
-          left={margin.left}
-          scale={xScale}
-          numTicks={xAxisNbOfTicks ? +xAxisNbOfTicks : undefined}
-          tickFormat={
-            xAxisFormat
-              ? graphData.xAxis.dataType === DataType.date
-                ? timeFormat(xAxisFormat)
-                : format(xAxisFormat)
-              : undefined
-          }
-          stroke="currentColor"
-          tickStroke="currentColor"
-          label={graphData.xAxis.label}
-          tickLineProps={{
-            fill: "currentColor",
-          }}
-          tickLabelProps={() => tickXLabelProps}
-          labelProps={labelProps}
+        <ClippedPathGroup dimension={dimension}>
+          {graphData.xAxis.dataType !== DataType.category && (
+            <LineSection
+              graphData={graphData}
+              xScale={xScale}
+              yScale={yScale}
+              colorScale={colorScale}
+            />
+          )}
+          {graphData.xAxis.dataType === DataType.category && (
+            <BarSection
+              graphData={graphData}
+              dimension={dimension}
+              yScale={yScale}
+              colorScale={colorScale}
+            />
+          )}
+        </ClippedPathGroup>
+        <AxisSection
+          graphData={graphData}
+          dimension={dimension}
+          xScale={xScale}
+          yScale={yScale}
         />
       </Svg>
-      <LegendWrapper>
-        {legendTitle && (
-          <LegendTitle className="title">{legendTitle}</LegendTitle>
-        )}
-        <LegendOrdinal
-          scale={colorScale}
-          direction={legendIsVertical ? "column" : "row"}
-          shape="circle"
-          itemMargin={".5em"}
-          labelMargin={"0 .1em 0 0"}
-        />
-      </LegendWrapper>
+      <LegendSection graphData={graphData} colorScale={colorScale} />
     </WrapperDiv>
   );
 };

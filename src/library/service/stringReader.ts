@@ -1,8 +1,8 @@
 // Inspired from https://github.com/markdown-it/markdown-it/blob/master/lib/rules_block/table.js
 
-import { TableData } from '../model/TableData';
+import { TableData } from "../model/TableData";
 
-function isSpace(code) {
+function isSpace(code: number) {
   switch (code) {
     case 0x09:
     case 0x20:
@@ -11,14 +11,14 @@ function isSpace(code) {
   return false;
 }
 
-function escapedSplit(str) {
+function escapedSplit(str: string) {
   const result = [];
   let pos = 0;
   const max = str.length;
   let ch;
   let isEscaped = false;
   let lastPos = 0;
-  let current = '';
+  let current = "";
 
   ch = str.charCodeAt(pos);
 
@@ -27,7 +27,7 @@ function escapedSplit(str) {
       if (!isEscaped) {
         // pipe separating cells, '|'
         result.push(current + str.substring(lastPos, pos));
-        current = '';
+        current = "";
         lastPos = pos + 1;
       } else {
         // escaped pipe, '\|'
@@ -51,7 +51,7 @@ const COMMENT_REGEX = /<\!--.*?-->/g;
 
 export function extractTableData(content: string): TableData | undefined {
   const lineList = content
-    .replace(COMMENT_REGEX, '')
+    .replace(COMMENT_REGEX, "")
     .trim()
     .split(/\r\n|\n\r|\n|\r/)
     .map((item) => item.trim());
@@ -86,7 +86,11 @@ export function extractTableData(content: string): TableData | undefined {
   }
 
   firstCh = lineList[nextLine].charCodeAt(pos++);
-  if (firstCh !== 0x7c /* | */ && firstCh !== 0x2d /* - */ && firstCh !== 0x3a /* : */) {
+  if (
+    firstCh !== 0x7c /* | */ &&
+    firstCh !== 0x2d /* - */ &&
+    firstCh !== 0x3a /* : */
+  ) {
     return undefined;
   }
 
@@ -111,7 +115,12 @@ export function extractTableData(content: string): TableData | undefined {
   while (pos < lineList[nextLine].length) {
     ch = lineList[nextLine].charCodeAt(pos);
 
-    if (ch !== 0x7c /* | */ && ch !== 0x2d /* - */ && ch !== 0x3a /* : */ && !isSpace(ch)) {
+    if (
+      ch !== 0x7c /* | */ &&
+      ch !== 0x2d /* - */ &&
+      ch !== 0x3a /* : */ &&
+      !isSpace(ch)
+    ) {
       return undefined;
     }
 
@@ -119,7 +128,7 @@ export function extractTableData(content: string): TableData | undefined {
   }
 
   lineText = lineList[nextLine];
-  columns = lineText.split('|');
+  columns = lineText.split("|");
   for (i = 0; i < columns.length; i++) {
     t = columns[i].trim();
     if (!t) {
@@ -138,12 +147,12 @@ export function extractTableData(content: string): TableData | undefined {
   }
 
   lineText = lineList[startLine].trim();
-  if (lineText.indexOf('|') === -1) {
+  if (lineText.indexOf("|") === -1) {
     return undefined;
   }
   columns = escapedSplit(lineText);
-  if (columns.length && columns[0] === '') columns.shift();
-  if (columns.length && columns[columns.length - 1] === '') columns.pop();
+  if (columns.length && columns[0] === "") columns.shift();
+  if (columns.length && columns[columns.length - 1] === "") columns.pop();
 
   // header row will define an amount of columns in the entire table
   columnCount = columns.length;
@@ -151,7 +160,7 @@ export function extractTableData(content: string): TableData | undefined {
     return undefined;
   }
 
-  let headList: string[];
+  let headList: string[] = [];
   const rowList: string[][] = [];
   // We read the table content
   for (nextLine = startLine; nextLine <= endLine; nextLine++) {
@@ -160,16 +169,16 @@ export function extractTableData(content: string): TableData | undefined {
       break;
     }
     columns = escapedSplit(lineText);
-    if (columns.length && columns[0] === '') {
+    if (columns.length && columns[0] === "") {
       columns.shift();
     }
-    if (columns.length && columns[columns.length - 1] === '') {
+    if (columns.length && columns[columns.length - 1] === "") {
       columns.pop();
     }
 
     const cellList = [];
     for (i = 0; i < columnCount; i++) {
-      cellList.push(columns[i] ? columns[i].trim() : '');
+      cellList.push(columns[i] ? columns[i].trim() : "");
     }
     if (nextLine === 0) {
       headList = cellList;

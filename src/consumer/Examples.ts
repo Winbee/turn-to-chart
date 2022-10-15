@@ -10,11 +10,12 @@ export const examples: {
     input: `
     | xLabel  | serie1 (unit1) |
     | :------ | ------ |
-    | 0 | 2 |
-    | 1 | 4 |
-    | 2 | 8 |
+    | 0 | 2000 |
+    | 1 | 4000 |
+    | 35 | 8000 |
 
     legendTitle: This is a title
+    yAxisOrigin: from zero
     `,
   },
   {
@@ -25,6 +26,9 @@ export const examples: {
     | 0 | 2 |4 |
     | 1 | 4 |5 |
     | 2 | 8 |1 |
+
+    yAxisNbOfTicks: 8
+    yAxisOrigin: from zero
     `,
   },
   {
@@ -33,8 +37,8 @@ export const examples: {
     | xLabel [date] | serie1 (unit1)  |
     | :------ | ------ |
     | 2021-01-02 | 2 |
-    | 2021-03-02 | 4 |
-    | 2021-04-02 | 8 |
+    | 2022-03-02 | 4 |
+    | 2023-04-02 | 8 |
     `,
   },
   {
