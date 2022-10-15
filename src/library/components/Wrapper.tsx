@@ -1,5 +1,4 @@
-import React from "react";
-import styled from "@emotion/styled";
+import React, { CSSProperties } from "react";
 import { timeFormatDefaultLocale } from "d3-time-format";
 import { schemeTableau10 } from "d3-scale-chromatic";
 import {
@@ -24,22 +23,22 @@ import { LineSection } from "./LineSection";
 import { BarSection, X0_PADDING } from "./BarSection";
 import { ClippedPathGroup } from "./ClippedPathGroup";
 
-const WrapperDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5em;
-`;
+const WrapperDiv: CSSProperties = {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  gap: "0.5em",
+};
 
-const Svg = styled.svg`
-  width: 100%;
-  max-width: 50em;
-`;
+const Svg: CSSProperties = {
+  width: "100%",
+  maxWidth: "50em",
+};
 
-const BackgroundRect = styled.rect`
-  border-radius: 4px;
-  fill: #8282821c;
-`;
+const BackgroundRect: CSSProperties = {
+  borderRadius: "4px",
+  fill: "#8282821c",
+};
 
 const computeDimension = () => {
   const width = 600;
@@ -110,13 +109,15 @@ export const Wrapper = ({ graphData }: WrapperPros) => {
     .range(schemeTableau10);
 
   return (
-    <WrapperDiv>
-      <Svg
+    <div style={WrapperDiv}>
+      <svg
+        style={Svg}
         viewBox={`0 0 ${dimension.width} ${dimension.height}`}
         width={dimension.width}
         height={dimension.height}
       >
-        <BackgroundRect
+        <rect
+          style={BackgroundRect}
           width={dimension.width}
           height={dimension.height}
           rx={8}
@@ -145,8 +146,8 @@ export const Wrapper = ({ graphData }: WrapperPros) => {
           xScale={xScale}
           yScale={yScale}
         />
-      </Svg>
+      </svg>
       <LegendSection graphData={graphData} colorScale={colorScale} />
-    </WrapperDiv>
+    </div>
   );
 };

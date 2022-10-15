@@ -1,54 +1,47 @@
-import React from "react";
-import styled from "@emotion/styled";
+import React, { CSSProperties } from "react";
 import { generateHtmlString } from "../library/main";
 import { examples } from "./Examples";
 
-const RootDiv = styled.div`
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
+const RootDiv: CSSProperties = {
+  fontFamily: "Inter, Avenir, Helvetica, Arial, sans-serif",
+  fontSize: "16px",
+  lineHeight: "24px",
+  fontWeight: "400",
+  colorScheme: "light dark",
+  color: "rgba(255, 255, 255, 0.87)",
+  backgroundColor: "#242424",
+  fontSynthesis: "none",
+  textRendering: "optimizeLegibility",
+  minHeight: "100vh",
+};
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+const WrapperDiv: CSSProperties = {
+  maxWidth: "1280px",
+  margin: "0 auto",
+  padding: "2rem",
+  textAlign: "center",
+};
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
+const TitleH1: CSSProperties = {
+  fontSize: "3.2em",
+  lineHeight: "1.1",
+};
 
-  min-height: 100vh;
-`;
-
-const WrapperDiv = styled.div`
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-`;
-
-const TitleH1 = styled.h1`
-  font-size: 3.2em;
-  line-height: 1.1;
-`;
-
-const TitleH2 = styled.h2`
-  margin-top: 2em;
-`;
+const TitleH2: CSSProperties = {
+  marginTop: "2em",
+};
 
 function App() {
   const examplesWithOnly = examples.filter((item) => item.only);
   const examplesToRender =
     examplesWithOnly.length > 0 ? examplesWithOnly : examples;
   return (
-    <RootDiv>
-      <WrapperDiv>
-        <TitleH1>Turn to chart</TitleH1>
+    <div style={RootDiv}>
+      <div style={WrapperDiv}>
+        <h1 style={TitleH1}>Turn to chart</h1>
         {examplesToRender.map((item, index) => (
           <div key={index}>
-            <TitleH2>{item.title}</TitleH2>
+            <h2 style={TitleH2}>{item.title}</h2>
             <div
               dangerouslySetInnerHTML={{
                 __html: generateHtmlString(item.input),
@@ -56,8 +49,8 @@ function App() {
             />
           </div>
         ))}
-      </WrapperDiv>
-    </RootDiv>
+      </div>
+    </div>
   );
 }
 
