@@ -1,10 +1,14 @@
 <div id="app"></div>
 <script type="module">
   import React from "react";
-  import ReactDOM from "react-dom/client";
+  import { render } from "react-dom";
   import App from "./src/consumer/App.tsx";
 
-  ReactDOM.createRoot(document.getElementById("app")).render(
-    React.createElement(App)
-  );
+  const container = document.getElementById("app");
+  render(React.createElement(App), container);
 </script>
+<style>
+  body {
+    margin: 0;
+  }
+</style>

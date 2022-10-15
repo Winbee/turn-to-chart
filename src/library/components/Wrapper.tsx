@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "@emotion/styled";
 import { AxisBottom, AxisLeft } from "@visx/axis";
 import { scaleLinear, scaleOrdinal, scaleTime, scaleBand } from "@visx/scale";
 import { timeFormatDefaultLocale } from "d3-time-format";
@@ -12,6 +13,13 @@ import { ConfigKind, LegendOrientation } from "../model/ConfigData";
 import { getDateTimeLocale, getLocale } from "../service/translationManager";
 import { GradientTealBlue } from "@visx/gradient";
 import { LinePath } from "@visx/shape";
+
+const WrapperDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5em;
+`;
 
 interface WrapperPros {
   graphData: GraphData;
@@ -92,7 +100,7 @@ export const Wrapper = ({ graphData }: WrapperPros) => {
   x1Scale.rangeRound([0, x0Scale.bandwidth()]);
 
   return (
-    <div>
+    <WrapperDiv>
       <svg width={width} height={height}>
         <GradientTealBlue id="teal" />
         <rect width={width} height={height} fill="url(#teal)" rx={14} />
@@ -100,6 +108,7 @@ export const Wrapper = ({ graphData }: WrapperPros) => {
           {graphData.xAxis.dataType !== DataType.category &&
             graphData.serieList.map((item) => (
               <LinePath
+                key={`line-path-${item.name}`}
                 data={item.pointList}
                 x={(d) => xScale(d.x) ?? 0}
                 y={(d) => yScale(d.y) ?? 0}
@@ -147,13 +156,12 @@ export const Wrapper = ({ graphData }: WrapperPros) => {
           scale={xScale}
         />
       </svg>
-      <LegendOrdinal
-        scale={colorScale}
-        direction="column-reverse"
-        itemDirection="row-reverse"
-        labelMargin="0 20px 0 0"
-        shapeMargin="1px 0 0"
-      />
-    </div>
+      <div>
+        <LegendOrdinal
+          scale={colorScale}
+          direction={legendIsVertical ? "row" : "column"}
+        />
+      </div>
+    </WrapperDiv>
   );
 };
