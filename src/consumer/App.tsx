@@ -34,6 +34,10 @@ const TitleH1 = styled.h1`
   line-height: 1.1;
 `;
 
+const TitleH2 = styled.h2`
+  margin-top: 2em;
+`;
+
 function App() {
   const examplesWithOnly = examples.filter((item) => item.only);
   const examplesToRender =
@@ -44,7 +48,7 @@ function App() {
         <TitleH1>Turn to chart</TitleH1>
         {examplesToRender.map((item, index) => (
           <div key={index}>
-            <h2>{item.title}</h2>
+            <TitleH2>{item.title}</TitleH2>
             <div
               dangerouslySetInnerHTML={{
                 __html: generateHtmlString(item.input),

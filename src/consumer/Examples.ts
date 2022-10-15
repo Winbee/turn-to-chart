@@ -1,5 +1,3 @@
-const only = true;
-
 export const examples: {
   title: string;
   input: string;

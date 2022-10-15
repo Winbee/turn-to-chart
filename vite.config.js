@@ -7,8 +7,8 @@ export default defineConfig({
   build: {
     lib: {
       // Could also be a dictionary or array of multiple entry points
-      entry: resolve(__dirname, "library/main.ts"),
-      name: "MyLib",
+      entry: resolve(__dirname, "src/library/main.ts"),
+      name: "TurnToChart",
       // the proper extensions will be added
       fileName: "turn-to-chart",
     },

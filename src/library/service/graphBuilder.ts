@@ -72,8 +72,8 @@ export const buildGraphData = (tableData: TableData): GraphData | undefined => {
   const unitList = [
     ...new Set(
       graphData.serieList
-        .filter((item: any) => item.unit)
         .map((item: any) => item.unit)
+        .filter((item: any) => item != null)
     ),
   ];
   graphData.yAxis.label = unitList.join(", ");
