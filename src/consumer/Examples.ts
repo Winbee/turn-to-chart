@@ -13,6 +13,8 @@ export const examples: {
     | 0 | 2 |
     | 1 | 4 |
     | 2 | 8 |
+
+    legendTitle: This is a title
     `,
   },
   {

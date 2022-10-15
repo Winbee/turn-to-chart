@@ -31,8 +31,14 @@ const Svg = styled.svg`
   max-width: 50em;
 `;
 
+const LegendWrapper = styled.div`
+  padding: 0.6em;
+  border-radius: 5px;
+  background: #8282821c;
+`;
+
 const LegendTitle = styled.div`
-  margin-bottom: 1em;
+  margin-bottom: 0.5em;
   font-weight: 100;
 `;
 
@@ -125,6 +131,29 @@ export const Wrapper = ({ graphData }: WrapperPros) => {
   const yAxisFormat = graphData.configMap.get(ConfigKind.yAxisFormat);
   const legendTitle = graphData.configMap.get(ConfigKind.legendTitle);
 
+  const tickXLabelProps = {
+    fill: "currentColor",
+    fontSize: 12,
+    fontFamily: "sans-serif",
+    textAnchor: "middle",
+  };
+
+  const tickYLabelProps = {
+    fill: "currentColor",
+    fontSize: 12,
+    fontFamily: "sans-serif",
+    textAnchor: "end",
+    dx: "-0.25em",
+    dy: "0.33em",
+  };
+
+  const labelProps = {
+    fill: "currentColor",
+    fontSize: 12,
+    fontFamily: "sans-serif",
+    textAnchor: "middle",
+  };
+
   return (
     <WrapperDiv>
       <Svg viewBox={`0 0 ${width} ${height}`} width={width} height={height}>
@@ -181,12 +210,12 @@ export const Wrapper = ({ graphData }: WrapperPros) => {
           scale={yScale}
           numTicks={yAxisNbOfTicks ? +yAxisNbOfTicks : undefined}
           tickFormat={yAxisFormat ? format(yAxisFormat) : undefined}
+          stroke="currentColor"
+          tickStroke="currentColor"
+          label={graphData.yAxis.label}
+          tickLabelProps={() => tickYLabelProps}
+          labelProps={labelProps}
         />
-        <Group top={height / 2} left={margin.left / 3}>
-          <text transform="rotate(-90)" textAnchor="middle">
-            {graphData.yAxis.label}
-          </text>
-        </Group>
         <AxisBottom
           top={chartHeight + margin.top}
           left={margin.left}
@@ -199,20 +228,28 @@ export const Wrapper = ({ graphData }: WrapperPros) => {
                 : format(xAxisFormat)
               : undefined
           }
+          stroke="currentColor"
+          tickStroke="currentColor"
+          label={graphData.xAxis.label}
+          tickLineProps={{
+            fill: "currentColor",
+          }}
+          tickLabelProps={() => tickXLabelProps}
+          labelProps={labelProps}
         />
-        <Group top={height - margin.bottom / 4} left={width / 2}>
-          <text textAnchor="middle">{graphData.xAxis.label}</text>
-        </Group>
       </Svg>
-      <div>
+      <LegendWrapper>
         {legendTitle && (
           <LegendTitle className="title">{legendTitle}</LegendTitle>
         )}
         <LegendOrdinal
           scale={colorScale}
           direction={legendIsVertical ? "column" : "row"}
+          shape="circle"
+          itemMargin={".5em"}
+          labelMargin={"0 .1em 0 0"}
         />
-      </div>
+      </LegendWrapper>
     </WrapperDiv>
   );
 };
