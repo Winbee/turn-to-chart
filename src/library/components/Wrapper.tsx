@@ -115,7 +115,7 @@ export const Wrapper = ({ graphData }: WrapperPros) => {
         style={Svg}
         viewBox={`0 0 ${dimension.width} ${dimension.height}`}
         width={dimension.width}
-        height={dimension.height}
+        height="auto"
       >
         <rect
           style={BackgroundRect}
