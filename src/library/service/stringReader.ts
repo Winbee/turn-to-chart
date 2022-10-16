@@ -1,6 +1,7 @@
 // Inspired from https://github.com/markdown-it/markdown-it/blob/master/lib/rules_block/table.js
 
 import { TableData } from "../model/TableData";
+import { extractTableDataFromCsv } from "./stringCsvReader";
 
 function isSpace(code: number) {
   switch (code) {
@@ -91,7 +92,8 @@ export function extractTableData(content: string): TableData | undefined {
     firstCh !== 0x2d /* - */ &&
     firstCh !== 0x3a /* : */
   ) {
-    return undefined;
+    // It's not a markdown table, let's see if it's a CSV
+    return extractTableDataFromCsv(lineList);
   }
 
   if (pos + 1 > lineList[nextLine].length) {

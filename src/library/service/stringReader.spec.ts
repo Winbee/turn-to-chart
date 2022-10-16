@@ -110,6 +110,50 @@ describe("stringReader", () => {
           configList: [],
         },
       },
+      {
+        title: "a csv format",
+        input: `
+      title1,  title2 
+      cell A1 , cell B1
+      cell A2 , cell B2
+      cell A3 , cell B3
+      `,
+        expectedOutput: {
+          headList: ["title1", "  title2"],
+          rowList: [
+            ["cell A1 ", " cell B1"],
+            ["cell A2 ", " cell B2"],
+            ["cell A3 ", " cell B3"],
+          ],
+          configList: [],
+        },
+      },
+      {
+        title: "a csv format with config",
+        input: `
+      title1,  title2 
+      cell A1 , cell B1
+      cell A2 , cell B2
+      cell A3 , cell B3
+
+
+
+      config key 1 : a config value
+      config key 2: another config value
+      `,
+        expectedOutput: {
+          headList: ["title1", "  title2"],
+          rowList: [
+            ["cell A1 ", " cell B1"],
+            ["cell A2 ", " cell B2"],
+            ["cell A3 ", " cell B3"],
+          ],
+          configList: [
+            "config key 1 : a config value",
+            "config key 2: another config value",
+          ],
+        },
+      },
     ];
 
     test.each(cases)(

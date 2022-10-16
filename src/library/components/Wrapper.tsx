@@ -34,6 +34,7 @@ const WrapperDiv: CSSProperties = {
 const Svg: CSSProperties = {
   width: "100%",
   maxWidth: "50em",
+  height: "auto",
 };
 
 const BackgroundRect: CSSProperties = {
@@ -115,7 +116,6 @@ export const Wrapper = ({ graphData }: WrapperPros) => {
         style={Svg}
         viewBox={`0 0 ${dimension.width} ${dimension.height}`}
         width={dimension.width}
-        height="auto"
       >
         <rect
           style={BackgroundRect}
