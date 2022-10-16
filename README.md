@@ -1,6 +1,6 @@
 # :memo::curly_loop::bar_chart: Transforms tables to charts
 
-This library renders an HTML chart based on a markdown table.
+This library transforms a `markdown` or `csv` table into an HTML chart
 
 It can be used both in the browser and node.
 
