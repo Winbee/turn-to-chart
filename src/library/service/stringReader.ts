@@ -50,7 +50,7 @@ function escapedSplit(str: string) {
 
 const COMMENT_REGEX = /<\!--.*?-->/g;
 
-export function extractTableData(content: string): TableData | undefined {
+export function extractTableData(content: string): TableData {
   const lineList = content
     .replace(COMMENT_REGEX, "")
     .trim()
@@ -72,7 +72,7 @@ export function extractTableData(content: string): TableData | undefined {
 
   // should have at least two lines
   if (lineList.length < 2) {
-    return undefined;
+    throw new Error("String has less than 2 lines");
   }
 
   nextLine = startLine + 1;
@@ -83,7 +83,7 @@ export function extractTableData(content: string): TableData | undefined {
 
   pos = 0;
   if (pos + 1 > lineList[nextLine].length) {
-    return undefined;
+    throw new Error(`Line '${nextLine + 1}' is too small`);
   }
 
   firstCh = lineList[nextLine].charCodeAt(pos++);
@@ -97,7 +97,7 @@ export function extractTableData(content: string): TableData | undefined {
   }
 
   if (pos + 1 > lineList[nextLine].length) {
-    return undefined;
+    throw new Error(`Line '${nextLine + 1}' is too small`);
   }
   secondCh = lineList[nextLine].charCodeAt(pos++);
   if (
@@ -106,13 +106,21 @@ export function extractTableData(content: string): TableData | undefined {
     secondCh !== 0x3a /* : */ &&
     !isSpace(secondCh)
   ) {
-    return undefined;
+    throw new Error(
+      `Char '${secondCh}' in line '${
+        nextLine + 1
+      }' is not a '|', '-', ':' or a space`
+    );
   }
 
   // if first character is '-', then second character must not be a space
   // (due to parsing ambiguity with list)
   if (firstCh === 0x2d /* - */ && isSpace(secondCh)) {
-    return undefined;
+    throw new Error(
+      `Second char '${secondCh}' in line '${
+        nextLine + 1
+      }' should not be a space as previous char is "-"`
+    );
   }
   while (pos < lineList[nextLine].length) {
     ch = lineList[nextLine].charCodeAt(pos);
@@ -123,7 +131,9 @@ export function extractTableData(content: string): TableData | undefined {
       ch !== 0x3a /* : */ &&
       !isSpace(ch)
     ) {
-      return undefined;
+      throw new Error(
+        `Char '${ch}' in line '${nextLine + 1}' is not '|', '-', ':' or a space`
+      );
     }
 
     pos++;
@@ -139,18 +149,24 @@ export function extractTableData(content: string): TableData | undefined {
       if (i === 0 || i === columns.length - 1) {
         continue;
       } else {
-        return undefined;
+        throw new Error(
+          `Empty columns in between columns are not allowed at line '${
+            nextLine + 1
+          }'`
+        );
       }
     }
 
     if (!/^:?-+:?$/.test(t)) {
-      return undefined;
+      throw new Error(
+        `Line '${nextLine + 1}' should only contains '-' and ':'`
+      );
     }
   }
 
   lineText = lineList[startLine].trim();
   if (lineText.indexOf("|") === -1) {
-    return undefined;
+    throw new Error(`Line '${startLine + 1}' doesn't contain '|'`);
   }
   columns = escapedSplit(lineText);
   if (columns.length && columns[0] === "") columns.shift();
@@ -159,7 +175,7 @@ export function extractTableData(content: string): TableData | undefined {
   // header row will define an amount of columns in the entire table
   columnCount = columns.length;
   if (columnCount === 0) {
-    return undefined;
+    throw new Error(`No column found`);
   }
 
   let headList: string[] = [];
