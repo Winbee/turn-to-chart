@@ -5,6 +5,7 @@ on: push
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: publish env
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -50,3 +51,9 @@ jobs:
           files: |
             dist/turn-to-chart.js
             dist/turn-to-chart.umd.cjs
+
+      - name: Publish to npm
+        uses: JS-DevTools/npm-publish@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
