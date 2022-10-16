@@ -5,8 +5,7 @@ export const examples: {
 }[] = [
   {
     title: "3 lines of numbers by category",
-    input: `
-| xLabel | serie1 (unit1)  |serie2 (unit2)  |serie3 (unit3)  |
+    input: `| xLabel | serie1 (unit1)  |serie2 (unit2)  |serie3 (unit3)  |
 | :------ | ------ | ------ | ------ |
 | category 1 | 2 | 4 | 1 |
 | category 2 | 4 | 5 | 2 |
@@ -17,8 +16,7 @@ legendTitle: This is a title
   },
   {
     title: "3 lines of numbers by number",
-    input: `
-| xLabel  | serie1 (unit1)  |serie2 (unit2)  | serie3 (unit3)
+    input: `| xLabel  | serie1 (unit1)  |serie2 (unit2)  | serie3 (unit3)
 | :------ | ------ | ------ |------ |
 | 0 | 2 |4 |14 |
 | 1 | 4 |5 |2 |
@@ -33,8 +31,7 @@ yAxisOrigin: from zero
   },
   {
     title: "csv with config example",
-    input: `
-xLabel, serie1 (unit1), serie2 (unit2)
+    input: `xLabel, serie1 (unit1), serie2 (unit2)
 0, 2000 , 2000
 1, 4000, 1000
 35, 8000, 2500

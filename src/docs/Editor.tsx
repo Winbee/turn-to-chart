@@ -11,6 +11,7 @@ const TextArea: CSSProperties = {
   minHeight: 300,
   width: "50%",
   resize: "none",
+  padding: "1em",
 };
 
 const debounce = (fn: any, delay: number) => {
