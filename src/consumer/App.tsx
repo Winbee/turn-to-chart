@@ -51,7 +51,7 @@ function App() {
                   }}
                 />
               ) : (
-                <div>{JSON.stringify(result.errors)}</div>
+                <div>{JSON.stringify(result.errors.join(","))}</div>
               )}
             </div>
           );
