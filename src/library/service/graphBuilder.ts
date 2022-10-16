@@ -7,7 +7,7 @@ import { isNumber } from "./utils";
 const X_LABEL_REGEX = /(.*?)\[(.*?)\]/;
 const Y_LABEL_REGEX = /(.*?)\((.*?)\)/;
 
-export const buildGraphData = (tableData: TableData): GraphData | undefined => {
+export const buildGraphData = (tableData: TableData): GraphData => {
   const graphData: GraphData = {
     serieList: [],
     xAxis: {

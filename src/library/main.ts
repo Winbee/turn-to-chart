@@ -2,16 +2,34 @@ import { extractTableData } from "./service/stringReader";
 import { buildGraphData } from "./service/graphBuilder";
 import { generateHtml } from "./service/htmlGenerator";
 
-export const generateHtmlString = (content: string): string => {
-  const tableData = extractTableData(content);
-  if (!tableData) {
-    return "";
-  }
+export interface TurnToChartResult {
+  data: string;
+  errors: any[];
+  metadata: {
+    isSucess: boolean;
+  };
+}
 
-  const graphData = buildGraphData(tableData);
-  if (!graphData) {
-    return "";
-  }
+export const generateHtmlString = (content: string): TurnToChartResult => {
+  try {
+    const tableData = extractTableData(content);
 
-  return generateHtml(graphData);
+    const graphData = buildGraphData(tableData);
+
+    return {
+      data: generateHtml(graphData),
+      errors: [],
+      metadata: {
+        isSucess: true,
+      },
+    };
+  } catch (e: unknown) {
+    return {
+      data: "",
+      errors: [e],
+      metadata: {
+        isSucess: false,
+      },
+    };
+  }
 };

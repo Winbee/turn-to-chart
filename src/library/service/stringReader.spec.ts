@@ -1,4 +1,4 @@
-import { test, describe, expect } from "vitest";
+import { test, describe, expect, it } from "vitest";
 import { TableData } from "../model/TableData";
 import { extractTableData } from "./stringReader";
 
@@ -14,13 +14,6 @@ describe("stringReader", () => {
       input: string;
       expectedOutput: TableData | undefined;
     }[] = [
-      {
-        title: "an string made of empty lines",
-        input: `
-
-      `,
-        expectedOutput: undefined,
-      },
       {
         title: "an ideal table",
         input: `
@@ -164,5 +157,16 @@ describe("stringReader", () => {
         expect(output).toEqual(expectedOutput);
       }
     );
+  });
+
+  it("throw an Error the string is empty", () => {
+    const input = `
+
+    `;
+    try {
+      extractTableData(input);
+      // Should not arrive here
+      expect(true).toEqual("We should not arrive here");
+    } catch {}
   });
 });

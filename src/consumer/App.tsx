@@ -39,16 +39,23 @@ function App() {
     <div style={RootDiv}>
       <div style={WrapperDiv}>
         <h1 style={TitleH1}>Turn to chart</h1>
-        {examplesToRender.map((item, index) => (
-          <div key={index}>
-            <h2 style={TitleH2}>{item.title}</h2>
-            <div
-              dangerouslySetInnerHTML={{
-                __html: generateHtmlString(item.input),
-              }}
-            />
-          </div>
-        ))}
+        {examplesToRender.map((item, index) => {
+          const result = generateHtmlString(item.input);
+          return (
+            <div key={index}>
+              <h2 style={TitleH2}>{item.title}</h2>
+              {result.metadata.isSucess ? (
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: result.data,
+                  }}
+                />
+              ) : (
+                <div>{JSON.stringify(result.errors.join(","))}</div>
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

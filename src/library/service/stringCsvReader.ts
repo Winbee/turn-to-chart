@@ -16,9 +16,7 @@ function findIndexForLastContent(lineList: string[]): number {
   return -1;
 }
 
-export function extractTableDataFromCsv(
-  lineList: string[]
-): TableData | undefined {
+export function extractTableDataFromCsv(lineList: string[]): TableData {
   // We need to split the string between csv data and config data
   const indexForLastContent = findIndexForLastContent(lineList);
 
@@ -35,9 +33,27 @@ export function extractTableDataFromCsv(
 
   const parseResult = parse(linesWithCsvData.join("\n"), papaParseConfig);
 
-  if (parseResult.errors.length > 0 || parseResult.data.length < 2) {
-    return undefined;
+  if (parseResult.errors.length > 0) {
+    throw new Error(parseResult.errors[0].message);
   }
+  if (parseResult.data.length < 2) {
+    throw new Error("Csv is less than 2 lines");
+  }
+  const lengthFirstLine = parseResult.data[0].length;
+  if (lengthFirstLine < 2) {
+    throw new Error("First line has less than 2 columns");
+  }
+
+  parseResult.data.forEach((item, index) => {
+    if (item.length !== lengthFirstLine) {
+      throw new Error(
+        `Line '${index + 1}' has ${
+          item.length
+        } columns when first line has ${lengthFirstLine} columns`
+      );
+    }
+  });
+
   const tableData = {
     headList: parseResult.data[0],
     rowList: parseResult.data.slice(1),
