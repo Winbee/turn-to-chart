@@ -20,6 +20,13 @@
     "preview": "vite preview",
     "test": "TZ=UTC vitest"
   },
+  "keywords": [
+    "csv",
+    "markdown",
+    "graph",
+    "chart",
+    "ui"
+  ],
   "dependencies": {
     "@visx/axis": "^2.14.0",
     "@visx/clip-path": "^2.10.0",
