@@ -11,6 +11,7 @@ It is used in https://github.com/Winbee/joplin-turn-to-chart at the moment. Go t
 
 - First add it to your package with `npm install turn-to-chart`
 - Then use in your code:
+
 ```typescript
 import { generateHtmlString } from "turn-to-chart";
 
