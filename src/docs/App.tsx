@@ -45,6 +45,13 @@ export function App() {
           <h2 style={TitleH2}>
             transform csv and markdown tables into beautiful charts
           </h2>
+          <h2 style={TitleH2}>
+            <a href="https://github.com/Winbee/turn-to-chart">documentation</a>{" "}
+            |{" "}
+            <a href="https://github.com/Winbee/joplin-turn-to-chart">
+              joplin plugin
+            </a>
+          </h2>
         </div>
         <div style={Content}>
           <Home />
