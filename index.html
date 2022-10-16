@@ -1,11 +1,12 @@
 <div id="app"></div>
 <script type="module">
   import React from "react";
-  import { render } from "react-dom";
+  import { createRoot } from "react-dom/client";
   import App from "./src/consumer/App.tsx";
 
   const container = document.getElementById("app");
-  render(React.createElement(App), container);
+  const root = createRoot(container);
+  root.render(React.createElement(App));
 </script>
 <style>
   body {
