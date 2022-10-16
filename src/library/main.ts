@@ -1,14 +1,9 @@
 import { extractTableData } from "./service/stringReader";
 import { buildGraphData } from "./service/graphBuilder";
 import { generateHtml } from "./service/htmlGenerator";
+import { TurnToChartResult } from "./model/TurnToChartResult";
 
-export interface TurnToChartResult {
-  data: string;
-  errors: any[];
-  metadata: {
-    isSucess: boolean;
-  };
-}
+export type { TurnToChartResult } from "./model/TurnToChartResult";
 
 export const generateHtmlString = (content: string): TurnToChartResult => {
   try {
