@@ -17,7 +17,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview",
+    "build:docs": "vite build --config vite-docs.config.ts",
+    "preview:docs": "vite preview  --config vite-docs.config.ts",
     "test": "TZ=UTC vitest"
   },
   "keywords": [
