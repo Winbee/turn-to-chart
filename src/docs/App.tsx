@@ -50,6 +50,10 @@ export function App() {
             |{" "}
             <a href="https://github.com/Winbee/joplin-turn-to-chart">
               joplin plugin
+            </a>{" "}
+            |{" "}
+            <a href="https://github.com/Winbee/markdown-it-turn-to-chart">
+              markdown-it plugin
             </a>
           </h2>
         </div>
