@@ -6,7 +6,7 @@ export type GraphData =
   | AbstractGraphData<string, DataType.category>;
 
 interface AbstractGraphData<T extends XType, K extends DataType> {
-  serieList: Serie<T>[];
+  seriesList: Series<T>[];
   xAxis: {
     label: string;
     dataType?: K;
@@ -20,7 +20,7 @@ interface AbstractGraphData<T extends XType, K extends DataType> {
   configMap: ConfigMap;
 }
 
-export interface Serie<T extends XType> {
+export interface Series<T extends XType> {
   name: string;
   unit?: string;
   label: string;

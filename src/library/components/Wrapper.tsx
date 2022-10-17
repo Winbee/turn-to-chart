@@ -105,9 +105,9 @@ export const Wrapper = ({ graphData }: WrapperPros) => {
     .domain(graphData.yAxis.domain)
     .range([dimension.chart.height, 0]);
 
-  const serieListLabels = graphData.serieList.map((item) => item.label);
+  const seriesListLabels = graphData.seriesList.map((item) => item.label);
   const colorScale = scaleOrdinal()
-    .domain(serieListLabels)
+    .domain(seriesListLabels)
     .range(schemeTableau10);
 
   return (

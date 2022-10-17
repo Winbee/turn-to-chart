@@ -6,6 +6,16 @@ const WrapperDiv: CSSProperties = {
   alignItems: "center",
 };
 
+const ErrorDiv: CSSProperties = {
+  width: "100%",
+  maxWidth: "50em",
+  height: "auto",
+  margin: "2em 0",
+  padding: "1em",
+  borderRadius: 4,
+  background: "#8282821c",
+};
+
 interface ViewerProps {
   stringValue: string;
 }
@@ -23,7 +33,9 @@ export function Viewer({ stringValue }: ViewerProps) {
           }}
         />
       ) : (
-        <div>{JSON.stringify(result.errors.join(","))}</div>
+        <div style={ErrorDiv}>
+          <div>{JSON.stringify(result.errors.join(","))}</div>
+        </div>
       )}
     </div>
   );

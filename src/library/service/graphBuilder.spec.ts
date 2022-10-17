@@ -12,9 +12,9 @@ describe("graphBuilder", () => {
       expectedOutput: GraphData;
     }[] = [
       {
-        title: "one number serie with x-axis starting at zero",
+        title: "one number series with x-axis starting at zero",
         input: {
-          headList: ["xLabel", "serie1 (kilo)"],
+          headList: ["xLabel", "series1 (kilo)"],
           rowList: [
             ["10", "2"],
             ["20", "4"],
@@ -23,11 +23,11 @@ describe("graphBuilder", () => {
           configList: ["xAxisOrigin: from zero"],
         },
         expectedOutput: {
-          serieList: [
+          seriesList: [
             {
-              name: "serie1",
+              name: "series1",
               unit: "kilo",
-              label: "serie1 (kilo)",
+              label: "series1 (kilo)",
               pointList: [
                 { x: 10, y: 2 },
                 { x: 20, y: 4 },
@@ -49,9 +49,9 @@ describe("graphBuilder", () => {
         },
       },
       {
-        title: "one number serie with y-axis starting at zero",
+        title: "one number series with y-axis starting at zero",
         input: {
-          headList: ["xLabel", "serie1 (kilo)"],
+          headList: ["xLabel", "series1 (kilo)"],
           rowList: [
             ["10", "2"],
             ["20", "4"],
@@ -60,11 +60,11 @@ describe("graphBuilder", () => {
           configList: ["yAxisOrigin: from zero"],
         },
         expectedOutput: {
-          serieList: [
+          seriesList: [
             {
-              name: "serie1",
+              name: "series1",
               unit: "kilo",
-              label: "serie1 (kilo)",
+              label: "series1 (kilo)",
               pointList: [
                 { x: 10, y: 2 },
                 { x: 20, y: 4 },
@@ -86,9 +86,9 @@ describe("graphBuilder", () => {
         },
       },
       {
-        title: "one number serie with both axis starting at zero",
+        title: "one number series with both axis starting at zero",
         input: {
-          headList: ["xLabel", "serie1 (kilo)"],
+          headList: ["xLabel", "series1 (kilo)"],
           rowList: [
             ["10", "2"],
             ["20", "4"],
@@ -97,11 +97,11 @@ describe("graphBuilder", () => {
           configList: ["xAxisOrigin: from zero", "yAxisOrigin: from zero"],
         },
         expectedOutput: {
-          serieList: [
+          seriesList: [
             {
-              name: "serie1",
+              name: "series1",
               unit: "kilo",
-              label: "serie1 (kilo)",
+              label: "series1 (kilo)",
               pointList: [
                 { x: 10, y: 2 },
                 { x: 20, y: 4 },
@@ -126,18 +126,18 @@ describe("graphBuilder", () => {
         },
       },
       {
-        title: "one number serie with x-with-unit",
+        title: "one number series with x-with-unit",
         input: {
-          headList: ["xLabel (unit)", "serie1 (kilo)"],
+          headList: ["xLabel (unit)", "series1 (kilo)"],
           rowList: [["10", "2"]],
           configList: [],
         },
         expectedOutput: {
-          serieList: [
+          seriesList: [
             {
-              name: "serie1",
+              name: "series1",
               unit: "kilo",
-              label: "serie1 (kilo)",
+              label: "series1 (kilo)",
               pointList: [{ x: 10, y: 2 }],
             },
           ],
@@ -155,9 +155,9 @@ describe("graphBuilder", () => {
         },
       },
       {
-        title: "one time-serie",
+        title: "one time-series",
         input: {
-          headList: ["xLabel [date]", "serie1 (kilo)"],
+          headList: ["xLabel [date]", "series1 (kilo)"],
           rowList: [
             ["2021-01-02", "2"],
             ["2021-03-02", "4"],
@@ -166,11 +166,11 @@ describe("graphBuilder", () => {
           configList: ["yAxisOrigin: from zero"],
         },
         expectedOutput: {
-          serieList: [
+          seriesList: [
             {
-              name: "serie1",
+              name: "series1",
               unit: "kilo",
-              label: "serie1 (kilo)",
+              label: "series1 (kilo)",
               pointList: [
                 { x: new Date("2021-01-02"), y: 2 },
                 { x: new Date("2021-03-02"), y: 4 },
@@ -192,9 +192,9 @@ describe("graphBuilder", () => {
         },
       },
       {
-        title: "one category-serie if a time-serie is not specified",
+        title: "one category-series if a time-series is not specified",
         input: {
-          headList: ["xLabel", "serie1 (kilo)"],
+          headList: ["xLabel", "series1 (kilo)"],
           rowList: [
             ["2021-01-02", "2"],
             ["2021-03-02", "4"],
@@ -203,11 +203,11 @@ describe("graphBuilder", () => {
           configList: ["yAxisOrigin: from zero"],
         },
         expectedOutput: {
-          serieList: [
+          seriesList: [
             {
-              name: "serie1",
+              name: "series1",
               unit: "kilo",
-              label: "serie1 (kilo)",
+              label: "series1 (kilo)",
               pointList: [
                 { x: "2021-01-02", y: 2 },
                 { x: "2021-03-02", y: 4 },
@@ -229,9 +229,9 @@ describe("graphBuilder", () => {
         },
       },
       {
-        title: "one category serie",
+        title: "one category series",
         input: {
-          headList: ["xLabel [category]", "serie1 (kilo)"],
+          headList: ["xLabel [category]", "series1 (kilo)"],
           rowList: [
             ["category 1", "2"],
             ["category 2", "4"],
@@ -240,11 +240,11 @@ describe("graphBuilder", () => {
           configList: [],
         },
         expectedOutput: {
-          serieList: [
+          seriesList: [
             {
-              name: "serie1",
+              name: "series1",
               unit: "kilo",
-              label: "serie1 (kilo)",
+              label: "series1 (kilo)",
               pointList: [
                 { x: "category 1", y: 2 },
                 { x: "category 2", y: 4 },
@@ -266,9 +266,9 @@ describe("graphBuilder", () => {
         },
       },
       {
-        title: "one category serie by guessing",
+        title: "one category series by guessing",
         input: {
-          headList: ["xLabel", "serie1 (kilo)"],
+          headList: ["xLabel", "series1 (kilo)"],
           rowList: [
             ["category one", "2"],
             ["category two", "4"],
@@ -277,11 +277,11 @@ describe("graphBuilder", () => {
           configList: [],
         },
         expectedOutput: {
-          serieList: [
+          seriesList: [
             {
-              name: "serie1",
+              name: "series1",
               unit: "kilo",
-              label: "serie1 (kilo)",
+              label: "series1 (kilo)",
               pointList: [
                 { x: "category one", y: 2 },
                 { x: "category two", y: 4 },
@@ -303,9 +303,9 @@ describe("graphBuilder", () => {
         },
       },
       {
-        title: "three number series",
+        title: "three number seriess",
         input: {
-          headList: ["xLabel", "serie1", "serie2", "serie3"],
+          headList: ["xLabel", "series1", "series2", "series3"],
           rowList: [
             ["1", "2", "1", "0"],
             ["2", "1", "1", "4"],
@@ -315,11 +315,11 @@ describe("graphBuilder", () => {
           configList: ["yAxisOrigin: from zero"],
         },
         expectedOutput: {
-          serieList: [
+          seriesList: [
             {
-              name: "serie1",
+              name: "series1",
               unit: undefined,
-              label: "serie1",
+              label: "series1",
               pointList: [
                 { x: 1, y: 2 },
                 { x: 2, y: 1 },
@@ -328,9 +328,9 @@ describe("graphBuilder", () => {
               ],
             },
             {
-              name: "serie2",
+              name: "series2",
               unit: undefined,
-              label: "serie2",
+              label: "series2",
               pointList: [
                 { x: 1, y: 1 },
                 { x: 2, y: 1 },
@@ -339,9 +339,9 @@ describe("graphBuilder", () => {
               ],
             },
             {
-              name: "serie3",
+              name: "series3",
               unit: undefined,
-              label: "serie3",
+              label: "series3",
               pointList: [
                 { x: 1, y: 0 },
                 { x: 2, y: 4 },

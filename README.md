@@ -17,7 +17,7 @@ It is used in:
 import { generateHtmlString } from "turn-to-chart";
 
 const inputString = `
-| xLabel  | serie1 (unit1) |
+| xLabel  | series1 (unit1) |
 | :------ | ------ |
 | 0 | 2000 |
 | 1 | 4000 |

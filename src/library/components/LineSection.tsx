@@ -19,7 +19,7 @@ export const LineSection = ({
 }: LineSectionPros) => {
   return (
     <>
-      {graphData.serieList.map((item, index) => (
+      {graphData.seriesList.map((item, index) => (
         <Fragment key={`line-path-${item.label}-${index}`}>
           <LinePath
             data={item.pointList as any}

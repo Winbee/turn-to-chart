@@ -21,9 +21,9 @@ export const BarSection = ({
   yScale,
   colorScale,
 }: BarSectionPros) => {
-  const keys = graphData.serieList.map((item) => item.label);
+  const keys = graphData.seriesList.map((item) => item.label);
   const transformedData: any = [];
-  graphData.serieList.forEach((series, indexSeries) => {
+  graphData.seriesList.forEach((series, indexSeries) => {
     series.pointList.forEach((point, index) => {
       if (indexSeries === 0) {
         transformedData.push({

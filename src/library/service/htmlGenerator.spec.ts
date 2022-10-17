@@ -10,11 +10,11 @@ describe("htmlGenerator", () => {
       {
         title: "one line of numbers by number",
         input: {
-          serieList: [
+          seriesList: [
             {
-              name: "serie1",
+              name: "series1",
               unit: "unit1",
-              label: "serie1 (unit1)",
+              label: "series1 (unit1)",
               pointList: [
                 { x: 0, y: 2 },
                 { x: 1, y: 4 },
@@ -38,11 +38,11 @@ describe("htmlGenerator", () => {
       {
         title: "two lines of numbers by number",
         input: {
-          serieList: [
+          seriesList: [
             {
-              name: "serie1",
+              name: "series1",
               unit: "unit1",
-              label: "serie1 (unit1)",
+              label: "series1 (unit1)",
               pointList: [
                 { x: 0, y: 2 },
                 { x: 1, y: 4 },
@@ -50,9 +50,9 @@ describe("htmlGenerator", () => {
               ],
             },
             {
-              name: "serie2",
+              name: "series2",
               unit: "unit2",
-              label: "serie2 (unit2)",
+              label: "series2 (unit2)",
               pointList: [
                 { x: 0, y: 4 },
                 { x: 1, y: 5 },
@@ -76,11 +76,11 @@ describe("htmlGenerator", () => {
       // {
       //   title: "one line of numbers by date",
       //   input: {
-      //     serieList: [
+      //     seriesList: [
       //       {
-      //         name: "serie1",
+      //         name: "series1",
       //         unit: "unit1",
-      //         label: "serie1 (unit1)",
+      //         label: "series1 (unit1)",
       //         pointList: [
       //           { x: new Date("2021-01-02T12:00:00.000Z"), y: 2 },
       //           { x: new Date("2021-03-02T12:00:00.000Z"), y: 4 },
@@ -107,11 +107,11 @@ describe("htmlGenerator", () => {
       {
         title: "one line of numbers by category",
         input: {
-          serieList: [
+          seriesList: [
             {
-              name: "serie1",
+              name: "series1",
               unit: "unit1",
-              label: "serie1 (unit1)",
+              label: "series1 (unit1)",
               pointList: [
                 { x: "category 1", y: 2 },
                 { x: "category 2", y: 4 },
@@ -135,11 +135,11 @@ describe("htmlGenerator", () => {
       {
         title: "three lines of numbers by category",
         input: {
-          serieList: [
+          seriesList: [
             {
-              name: "serie1",
+              name: "series1",
               unit: "unit1",
-              label: "serie1 (unit1)",
+              label: "series1 (unit1)",
               pointList: [
                 { x: "category 1", y: 2 },
                 { x: "category 2", y: 4 },
@@ -147,9 +147,9 @@ describe("htmlGenerator", () => {
               ],
             },
             {
-              name: "serie2",
+              name: "series2",
               unit: "unit2",
-              label: "serie2 (unit2)",
+              label: "series2 (unit2)",
               pointList: [
                 { x: "category 1", y: 4 },
                 { x: "category 2", y: 5 },
@@ -157,9 +157,9 @@ describe("htmlGenerator", () => {
               ],
             },
             {
-              name: "serie3",
+              name: "series3",
               unit: "unit3",
-              label: "serie3 (unit3)",
+              label: "series3 (unit3)",
               pointList: [
                 { x: "category 1", y: 1 },
                 { x: "category 2", y: 2 },

@@ -1,5 +1,5 @@
 import { AxisOriginKind, ConfigKind } from "../model/ConfigData";
-import { DataType, GraphData, Point, Serie, XType } from "../model/GraphData";
+import { DataType, GraphData, Point, Series, XType } from "../model/GraphData";
 import { TableData } from "../model/TableData";
 import { buildConfigData } from "./configBuilder";
 import { isNumber } from "./utils";
@@ -9,7 +9,7 @@ const Y_LABEL_REGEX = /(.*?)\((.*?)\)/;
 
 export const buildGraphData = (tableData: TableData): GraphData => {
   const graphData: GraphData = {
-    serieList: [],
+    seriesList: [],
     xAxis: {
       label: "",
       domain: [],
@@ -59,19 +59,19 @@ export const buildGraphData = (tableData: TableData): GraphData => {
       const regexResult = Y_LABEL_REGEX.exec(item);
       const name = regexResult ? regexResult[1].trim() : item.trim();
       const unit = regexResult ? regexResult[2].trim() : undefined;
-      const newSerie: Serie<any> = {
+      const newSeries: Series<any> = {
         name,
         unit,
         label: name + (unit ? ` (${unit})` : ""),
         pointList: [],
       };
-      graphData.serieList.push(newSerie);
+      graphData.seriesList.push(newSeries);
     }
   });
 
   const unitList = [
     ...new Set(
-      graphData.serieList
+      graphData.seriesList
         .map((item: any) => item.unit)
         .filter((item: any) => item != null)
     ),
@@ -111,7 +111,7 @@ export const buildGraphData = (tableData: TableData): GraphData => {
         x,
         y,
       };
-      graphData.serieList[columnIndex - 1].pointList.push(newPoint);
+      graphData.seriesList[columnIndex - 1].pointList.push(newPoint);
       yMin = yMin == null ? y : Math.min(y, yMin);
       yMax = yMax == null ? y : Math.max(y, yMax);
     }
