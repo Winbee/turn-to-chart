@@ -8,7 +8,7 @@ const WrapperDiv: CSSProperties = {
 };
 
 const TextArea: CSSProperties = {
-  minHeight: 300,
+  minHeight: 580,
   width: "50%",
   resize: "none",
   padding: "1em",

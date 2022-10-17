@@ -1,4 +1,10 @@
-import React, { CSSProperties, useMemo } from "react";
+import React, {
+  CSSProperties,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { generateHtmlString } from "../library/main";
 
 const WrapperDiv: CSSProperties = {
@@ -21,17 +27,32 @@ interface ViewerProps {
 }
 
 export function Viewer({ stringValue }: ViewerProps) {
+  const [buttonLabel, setButtonLabel] = useState("Copy HTML");
+
   const result = useMemo(() => {
     return generateHtmlString(stringValue);
   }, [stringValue]);
+
+  useEffect(() => {
+    setButtonLabel("Copy HTML");
+  }, [result]);
+
+  const copyHTML = useCallback(async () => {
+    await navigator.clipboard.writeText(result.data);
+    setButtonLabel("Copied !");
+  }, [result]);
+
   return (
     <div style={WrapperDiv}>
       {result.metadata.isSucess ? (
-        <div
-          dangerouslySetInnerHTML={{
-            __html: result.data,
-          }}
-        />
+        <div>
+          <button onClick={copyHTML}>{buttonLabel}</button>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: result.data,
+            }}
+          />
+        </div>
       ) : (
         <div style={ErrorDiv}>
           <div>{JSON.stringify(result.errors.join(","))}</div>
