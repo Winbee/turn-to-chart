@@ -66,6 +66,5 @@ yAxisOrigin: from zero
 legendOrientation: horizontal
 legendTitle: Legend
 `,
-    only: true,
   },
 ];
