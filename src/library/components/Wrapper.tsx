@@ -1,5 +1,4 @@
 import React, { CSSProperties } from "react";
-import { timeFormatDefaultLocale } from "d3-time-format";
 import { schemeTableau10 } from "d3-scale-chromatic";
 import {
   scaleLinear,
@@ -10,12 +9,6 @@ import {
 } from "@visx/scale";
 
 import { DataType, GraphData } from "../model/GraphData";
-import { ConfigKind } from "../model/ConfigData";
-import {
-  AvailableLocale,
-  getDateTimeLocale,
-  getLocale,
-} from "../service/translationManager";
 import { LegendSection } from "./LegendSection";
 import { Dimension } from "../model/UiType";
 import { AxisSection } from "./AxisSection";
@@ -69,13 +62,6 @@ interface WrapperPros {
 
 export const Wrapper = ({ graphData }: WrapperPros) => {
   const dimension = computeDimension();
-
-  const customLocale = graphData.configMap.get(ConfigKind.customLocale);
-  const locale = getLocale(
-    customLocale ?? globalThis.navigator?.language ?? AvailableLocale.enGB
-  );
-  const d3TimeLocale = getDateTimeLocale(locale);
-  timeFormatDefaultLocale(d3TimeLocale);
 
   let xScale: PickD3Scale<any, any, any>;
   switch (graphData.xAxis.dataType) {

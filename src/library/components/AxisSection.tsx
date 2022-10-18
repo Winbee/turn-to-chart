@@ -1,12 +1,13 @@
 import React from "react";
 import { format } from "d3-format";
-import { timeFormat } from "d3-time-format";
 import { AxisBottom, AxisLeft } from "@visx/axis";
+import { PickD3Scale } from "@visx/scale";
+import { timeFormatDefaultLocale } from "d3-time-format";
 
 import { DataType, GraphData } from "../model/GraphData";
 import { ConfigKind } from "../model/ConfigData";
 import { Dimension } from "../model/UiType";
-import { PickD3Scale } from "@visx/scale";
+import { getTimeLocaleDefinition } from "../service/translationManager";
 
 const defaultLabelProps = {
   fill: "currentColor",
@@ -51,6 +52,20 @@ export const AxisSection = ({
   const yAxisNbOfTicks = graphData.configMap.get(ConfigKind.yAxisNbOfTicks);
   const yAxisFormat = graphData.configMap.get(ConfigKind.yAxisFormat) ?? "~s";
 
+  let applicableXTickFormat;
+  if (graphData.xAxis.dataType === DataType.date) {
+    const customLocale =
+      graphData.configMap.get(ConfigKind.customLocale) ??
+      globalThis.navigator?.language;
+    const d3TimeLocale = getTimeLocaleDefinition(customLocale);
+    const timeLocaleObject = timeFormatDefaultLocale(d3TimeLocale);
+
+    applicableXTickFormat = xAxisFormat
+      ? timeLocaleObject.format(xAxisFormat)
+      : undefined;
+  } else if (xAxisFormat) {
+    applicableXTickFormat = format(xAxisFormat);
+  }
   return (
     <>
       <AxisLeft
@@ -70,13 +85,7 @@ export const AxisSection = ({
         left={dimension.margin.left}
         scale={xScale}
         numTicks={xAxisNbOfTicks ? +xAxisNbOfTicks : undefined}
-        tickFormat={
-          xAxisFormat
-            ? graphData.xAxis.dataType === DataType.date
-              ? timeFormat(xAxisFormat)
-              : (format(xAxisFormat) as any)
-            : undefined
-        }
+        tickFormat={applicableXTickFormat as any}
         stroke="currentColor"
         tickStroke="currentColor"
         label={graphData.xAxis.label}

@@ -1,3 +1,4 @@
+import { TimeLocaleDefinition } from "d3-time-format";
 import arEG from "./locale/ar-EG.json";
 import caES from "./locale/ca-ES.json";
 import csCZ from "./locale/cs-CZ.json";
@@ -66,14 +67,14 @@ export enum AvailableLocale {
   zhTW = "zh-TW", // Chinese (Taiwan)
 }
 
-export const getLocale = (input: string): AvailableLocale => {
+const getLocale = (input: string): AvailableLocale => {
   return (
     Object.values(AvailableLocale).find((item) => item === input) ??
     AvailableLocale.enGB
   );
 };
 
-export const getDateTimeLocale = (locale: AvailableLocale): any => {
+const getJsonDefinition = (locale: AvailableLocale): any => {
   switch (locale) {
     case AvailableLocale.arEG:
       return arEG;
@@ -142,4 +143,11 @@ export const getDateTimeLocale = (locale: AvailableLocale): any => {
     default:
       return enGB;
   }
+};
+
+export const getTimeLocaleDefinition = (
+  input: string
+): TimeLocaleDefinition => {
+  const locale = getLocale(input);
+  return getJsonDefinition(locale);
 };
