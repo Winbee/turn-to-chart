@@ -6,6 +6,7 @@ It can be used both in the browser and node.
 
 It is used in:
 - [a joplin plugin](https://github.com/Winbee/joplin-turn-to-chart)
+- [a markdown-it plugin](https://github.com/Winbee/markdown-it-turn-to-chart)
 - [a live editor](https://winbee.github.io/turn-to-chart/)
 
 ## Example usage
