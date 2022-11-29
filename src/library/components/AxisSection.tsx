@@ -3,6 +3,15 @@ import { format } from "d3-format";
 import { AxisBottom, AxisLeft } from "@visx/axis";
 import { PickD3Scale } from "@visx/scale";
 import { timeFormatDefaultLocale } from "d3-time-format";
+import {
+  timeSecond,
+  timeMinute,
+  timeHour,
+  timeDay,
+  timeMonth,
+  timeWeek,
+  timeYear,
+} from "d3-time";
 
 import { DataType, GraphData } from "../model/GraphData";
 import { ConfigKind } from "../model/ConfigData";
@@ -60,9 +69,42 @@ export const AxisSection = ({
     const d3TimeLocale = getTimeLocaleDefinition(customLocale);
     const timeLocaleObject = timeFormatDefaultLocale(d3TimeLocale);
 
-    applicableXTickFormat = xAxisFormat
-      ? timeLocaleObject.format(xAxisFormat)
-      : undefined;
+    if (xAxisFormat) {
+      applicableXTickFormat = timeLocaleObject.format(xAxisFormat);
+    } else if (graphData.configMap.get(ConfigKind.customLocale)) {
+      // We need to redefine the conditional formatting based on https://github.com/d3/d3-time-format#d3-time-format
+      // because timeFormatDefaultLocale doesn't modify global d3 object
+      const formatMillisecond = timeLocaleObject.format(".%L"),
+        formatSecond = timeLocaleObject.format(":%S"),
+        formatMinute = timeLocaleObject.format("%I:%M"),
+        formatHour = timeLocaleObject.format("%I %p"),
+        formatDay = timeLocaleObject.format("%a %d"),
+        formatWeek = timeLocaleObject.format("%b %d"),
+        formatMonth = timeLocaleObject.format("%B"),
+        formatYear = timeLocaleObject.format("%Y");
+
+      const multiFormat = (date: Date) => {
+        const formatFunction =
+          timeSecond(date) < date
+            ? formatMillisecond
+            : timeMinute(date) < date
+            ? formatSecond
+            : timeHour(date) < date
+            ? formatMinute
+            : timeDay(date) < date
+            ? formatHour
+            : timeMonth(date) < date
+            ? timeWeek(date) < date
+              ? formatDay
+              : formatWeek
+            : timeYear(date) < date
+            ? formatMonth
+            : formatYear;
+        return formatFunction(date);
+      };
+
+      applicableXTickFormat = multiFormat;
+    }
   } else if (xAxisFormat) {
     applicableXTickFormat = format(xAxisFormat);
   }

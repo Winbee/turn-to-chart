@@ -1,6 +1,6 @@
 {
   "name": "turn-to-chart",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Library which renders an HTML charts based on markdown or csv tables",
   "author": "Samuel Gagnepain",
   "homepage": "https://github.com/Winbee/turn-to-chart",
@@ -39,6 +39,7 @@
     "@visx/shape": "^2.12.2",
     "d3-format": "^3.1.0",
     "d3-scale-chromatic": "^3.0.0",
+    "d3-time": "^3.0.0",
     "d3-time-format": "^4.1.0",
     "papaparse": "^5.3.2",
     "react": "^18.2.0",
@@ -47,6 +48,7 @@
   "devDependencies": {
     "@types/d3-format": "^3.0.1",
     "@types/d3-scale-chromatic": "^3.0.0",
+    "@types/d3-time": "^3.0.0",
     "@types/d3-time-format": "^4.0.0",
     "@types/papaparse": "^5.3.5",
     "@types/prettier": "^2.7.1",
