@@ -1,6 +1,6 @@
 {
   "name": "turn-to-chart",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Library which renders an HTML charts based on markdown or csv tables",
   "author": "Samuel Gagnepain",
   "homepage": "https://github.com/Winbee/turn-to-chart",
